@@ -1,0 +1,23 @@
+include(FetchContent)
+
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+)
+FetchContent_MakeAvailable(googletest)
+
+add_executable(core_tests
+    tests/test_foc_math.cpp
+)
+
+target_include_directories(core_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(core_tests
+    GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(core_tests)

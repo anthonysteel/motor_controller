@@ -1,0 +1,32 @@
+# Build directories
+build/
+build-debug/
+build-release/
+cmake-build*/
+out/
+
+# CMake cache and generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# macOS cruft
+.DS_Store
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# CLion / JetBrains
+.idea/
+*.iml
+
+# Temporary or editor files
+*.swp
+*.swo
+*~
+
+# GoogleTest download via FetchContent
+_external/
+_fetchContent/
