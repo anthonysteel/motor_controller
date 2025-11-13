@@ -9,6 +9,8 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(core_tests
     tests/test_foc_math.cpp
+    tests/test_pi.cpp
+    src/pi.cpp   
 )
 
 target_include_directories(core_tests PRIVATE
