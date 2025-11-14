@@ -9,6 +9,7 @@ static AxisCoreConfig make_default_axis_cfg() {
     cfg.cur  = CurrentLoopConfig{0.8f};
     cfg.foc  = FocConfig{cfg.cur};
     cfg.est  = SpeedEstimatorConfig{LowPassConfig{0.2f}};
+    cfg.lim  = LimitsConfig{-100.0f, 100.0f, -100.0f, 100.0f};
     return cfg;
 }
 
@@ -102,4 +103,30 @@ TEST(AxisCore, PositionModeMovesThetaRefTowardTarget) {
         EXPECT_GE(out.theta_ref, last_theta_ref - 1e-6f);
         last_theta_ref = out.theta_ref;
     }
+}
+
+TEST(AxisCore, IqLimitFlagIsSetWhenClamped) {
+    AxisCoreConfig cfg = make_default_axis_cfg();
+    cfg.lim.iq_max = 1.0f;
+    cfg.lim.iq_min = -1.0f;
+
+    AxisCoreState st{};
+    st.spd.iq_pi = PI{10.0f, 0.0f, 0.0f, -100.0f, 100.0f};
+    st.foc.loop.id = PI{0.0f, 0.0f, 0.0f, -100.0f, 100.0f};
+    st.foc.loop.iq = PI{1.0f, 0.0f, 0.0f, -100.0f, 100.0f};
+
+    AxisCoreInput in{};
+    in.mode = AxisMode::Velocity;
+    in.theta_meas = 0.0f;
+    in.w_meas = 0.0f;
+    in.i_abc = {0.0f, 0.0f, 0.0f};
+    in.theta_target = 0.0f;
+    in.w_target = 10.0f;
+    in.iq_target = 0.0f;
+    in.v_bus = 24.0f;
+    in.theta_elec = 0.0f;
+
+    AxisCoreOutput out = run_axis_core(st, cfg, in, 0.001f);
+    EXPECT_LE(out.iq_cmd, 1.0f + 1e-6f);
+    EXPECT_TRUE(out.status.iq_limited);
 }
