@@ -16,6 +16,7 @@ add_executable(core_tests
     tests/test_modulation.cpp
     tests/test_pi.cpp
     tests/test_position_loop.cpp
+    tests/test_speed_estimator.cpp
     tests/test_speed_loop.cpp
     tests/test_trajectory.cpp
     src/axis_core.cpp
@@ -24,7 +25,8 @@ add_executable(core_tests
     src/lowpass.cpp
     src/modulation.cpp
     src/pi.cpp 
-    src/position_loop.cpp  
+    src/position_loop.cpp 
+    src/speed_estimator.cpp 
     src/speed_loop.cpp
     src/trajectory.cpp
 )
