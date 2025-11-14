@@ -11,9 +11,11 @@ add_executable(core_tests
     tests/test_current_loop.cpp
     tests/test_foc_math.cpp
     tests/test_foc.cpp
+    tests/test_modulation.cpp
     tests/test_pi.cpp
     src/current_loop.cpp
     src/foc.cpp
+    src/modulation.cpp
     src/pi.cpp   
 )
 
