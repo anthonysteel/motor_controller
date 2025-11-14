@@ -26,6 +26,11 @@ template <typename T>
     return x < lo ? lo : (x > hi ? hi : x);
 }
 
+[[nodiscard]] inline float signf(float x) noexcept {
+    return x > 0.0f ? 1.0f : (x < 0.0f ? -1.0f : 0.0f);
+}
+
+
 [[nodiscard]] inline float wrap_2pi(float angle) noexcept {
     float k = std::floor(angle / two_pi_v);
     angle -= k * two_pi_v;

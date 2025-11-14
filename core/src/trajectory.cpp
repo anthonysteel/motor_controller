@@ -1,10 +1,6 @@
 #include "trajectory.hpp"
 #include "foc_math.hpp"
 
-static inline float signf(float x) noexcept {
-    return x > 0.0f ? 1.0f : (x < 0.0f ? -1.0f : 0.0f);
-}
-
 TrajOutput run_traj_step(
     TrajState& state,
     const TrajConfig& cfg,
