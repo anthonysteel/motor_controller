@@ -15,12 +15,14 @@ add_executable(core_tests
     tests/test_pi.cpp
     tests/test_position_loop.cpp
     tests/test_speed_loop.cpp
+    tests/test_trajectory.cpp
     src/current_loop.cpp
     src/foc.cpp
     src/modulation.cpp
     src/pi.cpp 
     src/position_loop.cpp  
     src/speed_loop.cpp
+    src/trajectory.cpp
 )
 
 target_include_directories(core_tests PRIVATE
