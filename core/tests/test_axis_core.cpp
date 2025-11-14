@@ -8,6 +8,7 @@ static AxisCoreConfig make_default_axis_cfg() {
     cfg.spd  = SpeedLoopConfig{-100.0f, 100.0f};
     cfg.cur  = CurrentLoopConfig{0.8f};
     cfg.foc  = FocConfig{cfg.cur};
+    cfg.est  = SpeedEstimatorConfig{LowPassConfig{0.2f}};
     return cfg;
 }
 

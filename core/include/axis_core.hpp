@@ -2,6 +2,7 @@
 
 #include "trajectory.hpp"
 #include "position_loop.hpp"
+#include "speed_estimator.hpp"
 #include "speed_loop.hpp"
 #include "foc.hpp"
 #include "modulation.hpp"
@@ -19,6 +20,7 @@ struct AxisCoreConfig {
     SpeedLoopConfig spd;
     CurrentLoopConfig cur;
     FocConfig foc;
+    SpeedEstimatorConfig est;
 };
 
 struct AxisCoreState {
@@ -26,6 +28,7 @@ struct AxisCoreState {
     PositionLoopState pos;
     SpeedLoopState spd;
     FocState foc;
+    SpeedEstimatorState est;
 };
 
 struct AxisCoreInput {
@@ -48,6 +51,7 @@ struct AxisCoreOutput {
     float iq_cmd;
     float w_cmd;
     float theta_ref;
+    float w_meas;
 };
 
 AxisCoreOutput run_axis_core(

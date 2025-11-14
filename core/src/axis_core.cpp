@@ -8,11 +8,16 @@ AxisCoreOutput run_axis_core(
     float dt) noexcept
 {
     AxisCoreOutput out{};
-    
+
     if (in.v_bus <= 0.0f || dt <= 0.0f) {
         return out;
     }
 
+    SpeedEstimatorInput est_in{in.theta_meas};
+    SpeedEstimatorOutput est_out =
+        run_speed_estimator(state.est, cfg.est, est_in, dt);
+
+    float w_meas = est_out.w_filtered;
     float theta_ref = in.theta_target;
     float w_cmd = 0.0f;
     float iq_cmd = 0.0f;
@@ -26,7 +31,7 @@ AxisCoreOutput run_axis_core(
             break;
 
         case AxisMode::Velocity: {
-            SpeedLoopInput spd_in{in.w_meas, in.w_target};
+            SpeedLoopInput spd_in{w_meas, in.w_target};
             SpeedLoopOutput spd_out = run_speed_loop(state.spd, cfg.spd, spd_in, dt);
             iq_cmd = spd_out.iq_cmd;
             w_cmd = in.w_target;
@@ -41,7 +46,7 @@ AxisCoreOutput run_axis_core(
             PositionLoopOutput pos_out = run_position_loop(state.pos, cfg.pos, pos_in, dt);
             w_cmd = pos_out.w_cmd;
 
-            SpeedLoopInput spd_in{in.w_meas, w_cmd};
+            SpeedLoopInput spd_in{w_meas, w_cmd};
             SpeedLoopOutput spd_out = run_speed_loop(state.spd, cfg.spd, spd_in, dt);
             iq_cmd = spd_out.iq_cmd;
         } break;
@@ -72,6 +77,7 @@ AxisCoreOutput run_axis_core(
     out.iq_cmd = iq_cmd;
     out.w_cmd = w_cmd;
     out.theta_ref = theta_ref;
+    out.w_meas = w_meas;
 
     return out;
 }
