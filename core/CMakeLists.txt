@@ -8,6 +8,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_executable(core_tests
+    tests/test_axis_core.cpp
     tests/test_current_loop.cpp
     tests/test_foc_math.cpp
     tests/test_foc.cpp
@@ -16,6 +17,7 @@ add_executable(core_tests
     tests/test_position_loop.cpp
     tests/test_speed_loop.cpp
     tests/test_trajectory.cpp
+    src/axis_core.cpp
     src/current_loop.cpp
     src/foc.cpp
     src/modulation.cpp
