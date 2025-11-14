@@ -20,7 +20,6 @@ TEST(AxisCore, IdleModeProducesZeroModulation) {
     AxisCoreInput in{};
     in.mode = AxisMode::Idle;
     in.theta_meas = 0.0f;
-    in.w_meas = 0.0f;
     in.i_abc = {0.0f, 0.0f, 0.0f};
     in.theta_target = 0.0f;
     in.w_target = 0.0f;
@@ -43,7 +42,6 @@ TEST(AxisCore, CurrentIqModeUsesIqTarget) {
     AxisCoreInput in{};
     in.mode = AxisMode::CurrentIq;
     in.theta_meas = 0.0f;
-    in.w_meas = 0.0f;
     in.i_abc = {0.0f, 0.0f, 0.0f};
     in.theta_target = 0.0f;
     in.w_target = 0.0f;
@@ -65,7 +63,6 @@ TEST(AxisCore, VelocityModeProducesPositiveIqForPositiveSpeed) {
     AxisCoreInput in{};
     in.mode = AxisMode::Velocity;
     in.theta_meas = 0.0f;
-    in.w_meas = 0.0f;
     in.i_abc = {0.0f, 0.0f, 0.0f};
     in.theta_target = 0.0f;
     in.w_target = 5.0f;
@@ -88,7 +85,6 @@ TEST(AxisCore, PositionModeMovesThetaRefTowardTarget) {
     AxisCoreInput in{};
     in.mode = AxisMode::Position;
     in.theta_meas = 0.0f;
-    in.w_meas = 0.0f;
     in.i_abc = {0.0f, 0.0f, 0.0f};
     in.theta_target = 1.0f;
     in.w_target = 0.0f;
@@ -118,7 +114,6 @@ TEST(AxisCore, IqLimitFlagIsSetWhenClamped) {
     AxisCoreInput in{};
     in.mode = AxisMode::Velocity;
     in.theta_meas = 0.0f;
-    in.w_meas = 0.0f;
     in.i_abc = {0.0f, 0.0f, 0.0f};
     in.theta_target = 0.0f;
     in.w_target = 10.0f;

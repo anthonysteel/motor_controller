@@ -42,7 +42,6 @@ struct AxisCoreState {
 struct AxisCoreInput {
     AxisMode mode;
     float theta_meas;
-    float w_meas;
     PhaseCurrents i_abc;
     float theta_target;
     float w_target;
