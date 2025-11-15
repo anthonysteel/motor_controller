@@ -88,6 +88,7 @@ AxisCoreOutput run_axis_core(
     out.theta_ref = theta_ref;
     out.status.iq_limited = state.lim.iq_limited;
     out.status.vel_limited = state.lim.w_limited;
+    out.status.saturated = mod_out.saturated;
 
     return out;
 }

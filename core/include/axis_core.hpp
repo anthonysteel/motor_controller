@@ -18,6 +18,7 @@ enum class AxisMode {
 struct AxisCoreStatus {
     bool iq_limited;
     bool vel_limited;
+    bool saturated;
 };
 
 struct AxisCoreConfig {
