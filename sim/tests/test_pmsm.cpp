@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "pmsm.hpp"
-#include "foc_math.hpp"
+#include "sim_math.hpp"
 
 static PmsmParams make_default_params() {
     PmsmParams p{};

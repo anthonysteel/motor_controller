@@ -1,5 +1,5 @@
 #include "pmsm.hpp"
-#include "foc_math.hpp"
+#include "sim_math.hpp"
 #include <cmath>
 
 struct PmsmDeriv {
