@@ -37,9 +37,9 @@ static PmsmDeriv pmsm_rhs(
 
     float omega_e = p * omega_m;
 
-    dx.dia = (va - Rs * ia + psi_m * omega_e * std::sin(theta_e)) / Ls;
-    dx.dib = (vb - Rs * ib + psi_m * omega_e * std::sin(theta_e - 2.0f * pi_v / 3.0f)) / Ls;
-    dx.dic = (vc - Rs * ic + psi_m * omega_e * std::sin(theta_e + 2.0f * pi_v / 3.0f)) / Ls;
+    dx.dia = (va - Rs * ia - psi_m * omega_e * std::sin(theta_e)) / Ls;
+    dx.dib = (vb - Rs * ib - psi_m * omega_e * std::sin(theta_e - 2.0f * pi_v / 3.0f)) / Ls;
+    dx.dic = (vc - Rs * ic - psi_m * omega_e * std::sin(theta_e + 2.0f * pi_v / 3.0f)) / Ls;
 
     float ialpha = (2.0f / 3.0f) * (ia - 0.5f * ib - 0.5f * ic);
     float ibeta = (2.0f / 3.0f) * ((sqrt3_v * 0.5f) * (ib - ic));
