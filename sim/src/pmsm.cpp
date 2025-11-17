@@ -10,6 +10,22 @@ struct PmsmDeriv {
     float dtheta_e;
 };
 
+static PmsmDeriv pmsm_rk4_combine(
+    const PmsmDeriv& k1,
+    const PmsmDeriv& k2,
+    const PmsmDeriv& k3,
+    const PmsmDeriv& k4) noexcept
+{
+    constexpr float inv6 = 1.0f / 6.0f;
+    PmsmDeriv k{};
+    k.dia = (k1.dia + 2.0f * k2.dia + 2.0f * k3.dia + k4.dia) * inv6;
+    k.dib = (k1.dib + 2.0f * k2.dib + 2.0f * k3.dib + k4.dib) * inv6;
+    k.dic = (k1.dic + 2.0f * k2.dic + 2.0f * k3.dic + k4.dic) * inv6;
+    k.domega_m = (k1.domega_m + 2.0f * k2.domega_m + 2.0f * k3.domega_m + k4.domega_m) * inv6;
+    k.dtheta_e = (k1.dtheta_e + 2.0f * k2.dtheta_e + 2.0f * k3.dtheta_e + k4.dtheta_e) * inv6;
+    return k;
+}
+
 static PmsmDeriv pmsm_rhs(
     const PmsmState& x,
     const PmsmParams& params,
@@ -69,6 +85,20 @@ static PmsmState pmsm_add(
     return r;
 }
 
+template <typename RhsFunc>
+static PmsmState integrate_rk4(
+    const PmsmState& x0,
+    float dt,
+    RhsFunc&& rhs) noexcept
+{
+    PmsmDeriv k1 = rhs(x0);
+    PmsmDeriv k2 = rhs(pmsm_add(x0, k1, 0.5f * dt));
+    PmsmDeriv k3 = rhs(pmsm_add(x0, k2, 0.5f * dt));
+    PmsmDeriv k4 = rhs(pmsm_add(x0, k3, dt));
+    PmsmDeriv k = pmsm_rk4_combine(k1, k2, k3, k4);
+    return pmsm_add(x0, k, dt);
+}
+
 PmsmOutput pmsm_step(
     PmsmState& state,
     const PmsmParams& params,
@@ -87,21 +117,11 @@ PmsmOutput pmsm_step(
         return out;
     }
 
-    PmsmState x = state;
-    PmsmDeriv k1 = pmsm_rhs(x, params, input);
-    PmsmDeriv k2 = pmsm_rhs(pmsm_add(x, k1, 0.5 * dt), params, input);
-    PmsmDeriv k3 = pmsm_rhs(pmsm_add(x, k2, 0.5 * dt), params, input);
-    PmsmDeriv k4 = pmsm_rhs(pmsm_add(x, k3, dt), params, input);
+    auto rhs = [&](const PmsmState& x) noexcept {
+        return pmsm_rhs(x, params, input);
+    };
 
-    constexpr float inv6 = 1.0f / 6.0f;
-    PmsmDeriv k{};
-    k.dia = (k1.dia + 2.0f * k2.dia + 2.0f * k3.dia + k4.dia) * inv6;
-    k.dib = (k1.dib + 2.0f * k2.dib + 2.0f * k3.dib + k4.dib) * inv6;
-    k.dic = (k1.dic + 2.0f * k2.dic + 2.0f * k3.dic + k4.dic) * inv6;
-    k.domega_m = (k1.domega_m + 2.0f * k2.domega_m + 2.0f * k3.domega_m + k4.domega_m) * inv6;
-    k.dtheta_e = (k1.dtheta_e + 2.0f * k2.dtheta_e + 2.0f * k3.dtheta_e + k4.dtheta_e) * inv6;
-
-    x = pmsm_add(x, k, dt);
+    PmsmState x = integrate_rk4(state, dt, rhs);
     x.theta_e = wrap_2pi(x.theta_e);
 
     state = x;
