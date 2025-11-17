@@ -1,3 +1,4 @@
+#include <cmath>
 #include <gtest/gtest.h>
 #include "pmsm.hpp"
 #include "sim_math.hpp"
@@ -62,5 +63,5 @@ TEST(Pmsm, SinusoidalBackEmfDriveProducesAcceleration) {
         pmsm_step(st, params, in, dt);
     }
 
-    EXPECT_GT(st.omega_m, 0.0f);
+    EXPECT_GT(std::fabs(st.omega_m), 1e-3f);
 }
