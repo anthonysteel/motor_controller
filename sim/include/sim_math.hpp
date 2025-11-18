@@ -16,3 +16,11 @@ constexpr float two_thirds_v = 2.0f / 3.0f;
     }
     return angle;
 }
+
+[[nodiscard]] inline float wrap_pi(float angle) noexcept {
+    angle = wrap_2pi(angle);
+    if (angle >= pi_v) {
+        angle -= two_pi_v;
+    }
+    return angle;
+}

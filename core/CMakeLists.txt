@@ -37,6 +37,24 @@ target_include_directories(core_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
+add_library(core STATIC
+    src/pi.cpp
+    src/current_loop.cpp
+    src/foc.cpp
+    src/modulation.cpp
+    src/speed_loop.cpp
+    src/position_loop.cpp
+    src/trajectory.cpp
+    src/axis_core.cpp
+    src/limits.cpp
+    src/lowpass.cpp
+    src/speed_estimator.cpp
+)
+
+target_include_directories(core
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
 target_link_libraries(core_tests
     GTest::gtest_main
 )
