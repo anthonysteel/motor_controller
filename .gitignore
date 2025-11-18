@@ -30,3 +30,17 @@ Makefile
 # GoogleTest download via FetchContent
 _external/
 _fetchContent/
+
+# Python virtual env
+dashboard/backend/.venv/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# Simulation output logs
+*.csv
+
+# Streamlit cache (optional)
+dashboard/backend/.streamlit/
