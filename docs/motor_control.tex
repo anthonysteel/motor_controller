@@ -25,20 +25,78 @@
 \maketitle
 
 A 3-phase inverter contains 6 switches arranged in a 3 half-bridge topology.
-Each half-bridge leg has a high and low side switch.  These switches must be
-driven in a complimentary fashion to prevent grounding the source.  This 
-complimentarity requirement reduces the $2^6$ possible switch states to $2^3$.
-Of these 8 states, two correspond to zero or floating voltages when either
-all the low-side/high-side switches are on respectively.
+Each half-bridge leg has a high and low side switch with a lead connected to a 
+motor phase between the switches.  These switches must be driven in a 
+complementary fashion to prevent grounding the source.  This  complementarity 
+requirement reduces the $2^6$ possible switching states to $2^3$. Of these 8 
+states, two correspond to zero or floating voltages when either all the 
+low-side/high-side switches are on respectively.
 
 Now, each of the remaining 6 states will produce discrete line-to-neutral
-voltages in the stator windings of the motor that they are connected to
-These states are given by: 
+voltages in the stator windings of the motor that they are connected to.
+These states are given by:  
 \[
 (s_a, s_b, s_c)\in \{0, 1\}^3
 \]
-It is
-self-evident that it will be useful to produce voltages other than these 
+What voltages can these switching states produce in the phases of the stator?
+Let $V_\text{dc}$ be the DC bus voltage. Consider one leg of the inverter first
+and let the voltage of this phase be $v_i$.  At any moment either the high-side
+switch is on connecting the phase to $V_\text{dc}$ or the low-side switch is on
+grounding it.  Thus the phase-node voltages are
+\[
+v_a, v_b, v_c \in \{0, V_\text{dc}\}.
+\]
+The set of all physically possible raw node voltages are the points
+\[
+\{0, V_\text{dc}\}^3 \subset \mathbb{R}^3
+\]
+which form the vertices of a cube. In fact, by suitable averaging, the inverter
+can realize any point in the convex hull of these vertices.
+
+However, it is important to note that there is a physical redunancy in this
+representation because the current in the stator windings does not depend on raw
+voltages. 
+Faraday's Law states
+\[
+e_{ab} = \frac{d\lambda}{dt},
+\]
+and the electrical winding voltage is $v_{ab} = v_a - v_b$.
+Therefore the current that flows in the stator depends on the voltage 
+differences \emph{between} the phases, not their value relative to some ground.
+This means that adding the same constant $k$, called a common-mode, to all three
+leg voltages
+\[
+(v_a, v_b, v_c) \mapsto (v_a + k, v_b + k, v_c + k)
+\]
+leaves all phase-to-phase voltages $v_{ab}, v_{bc}, v_{ca}$ unchanged.
+Hence, many points in the cube represent the same physical winding voltages
+and currents.
+
+To remove this redundancy, quotient out the common-mode by solving for it in terms
+of the $v_a, v_b, v_c$ voltages.  If the stator is wound in a Y-connected with 
+a floating neutral, Kirchoff's Current Law at the neutral node gives
+\[
+\frac{v_a - v_N}{Z_a} + \frac{v_b - v_N}{Z_b} + \frac{v_c - v_N}{Z_c} = 0
+\]
+For balanced phases $Z_a = Z_b = Z_c$, which simplifies to
+\[
+v_a - v_N + v_b + v_N + v_c + v_N = 0
+\]
+and therefore
+\[
+v_N = \frac{v_a + v_b + v_c}{3}.
+\]
+Identifying $v_N = -k$, referencing the voltages to neutral provides the 
+constraint that elimnates the redundancy.
+
+Geometrically, subtracting the neutral voltage is equivalent to projecting the
+convex hull of the cube $[0, V_\text{dc}]^3$ onto the 2-dimensional plane
+\[
+v_{aN} + v_{bN} + v_{cN} = 0
+\]
+This is a linear projection along the direction of the vector $(1, 1, 1)$.
+
+It is self-evident that it will be useful to produce voltages other than these 
 6 discrete states in the stator windings through some method of
 time-averaging.  The detailed discussion of this averaging is deffered for the 
 moment.
