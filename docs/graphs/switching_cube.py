@@ -12,7 +12,7 @@ pts = np.array(list(product([0, Vdc], repeat=3)))
 fig = plt.figure(figsize=(6,6))
 ax = fig.add_subplot(projection='3d')
 
-ax.scatter(pts[:,0], pts[:,1], pts[:,2], s=60, color='black')
+ax.scatter(pts[:,0], pts[:,1], pts[:,2], s=60, color='#003f7f')
 
 ax.set_xlabel(r'$v_a$', fontsize=14, labelpad=-5)
 ax.set_ylabel(r'$v_b$', fontsize=14, labelpad=-5)
@@ -32,6 +32,6 @@ ax.set_zticks([])
 
 plt.tight_layout()
 
-plt.savefig("img/cube_vertices.png", format="png", dpi=600, bbox_inches="tight")
+plt.savefig("img/switching_cube.png", format="png", dpi=600, bbox_inches="tight")
 
 plt.show()

@@ -33,7 +33,7 @@ poly3d = [[np.array(p) for p in face] for face in faces]
 collection = Poly3DCollection(poly3d, facecolors='#a8c6ff', edgecolors='none', alpha=0.35)
 ax.add_collection3d(collection)
 
-#edge_collection = Line3DCollection(edges, colors='#999999', linewidths=1.2)
+#edge_collection = Line3DCollection(edges, colors='#a8c6ff', linewidths=1.2)
 #ax.add_collection3d(edge_collection)
 
 pts = np.array(list(product([0, Vdc], repeat=3)))
@@ -49,13 +49,12 @@ ax.set_zlim(-0.2, 1.2)
 
 ax.set_box_aspect([1,1,1])
 ax.grid(False)
-
-ax.view_init(elev=35.264, azim=45)
+ax.view_init(elev=20, azim=30)
 
 ax.set_xticks([])
 ax.set_yticks([])
 ax.set_zticks([])
 
 plt.tight_layout()
-plt.savefig("img/project_hexagon.png", format="png", dpi=600)
+plt.savefig("img/convex_hull.png", format="png", dpi=600)
 plt.show()
