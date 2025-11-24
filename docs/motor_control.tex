@@ -6,7 +6,11 @@
 \usepackage[english]{babel}
 
 % Math and symbols
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath, 
+            amssymb,
+            graphicx,
+            subcaption}
+\usepackage[europeanresistors,americaninductors]{circuitikz}
 
 % Better spacing and layout
 \usepackage{microtype}
@@ -16,107 +20,91 @@
 % Hyperlinks
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
 
-\title{Motor Control}
+\title{Permanent Magnet Motor Control}
 \author{Anthony J. Steel}
 \date{\today}
 
 \begin{document}
 
 \maketitle
+The fundamental unit of a permanent magnet motor is the rotor containing
+$p$ pairs of ideal radial-flux permanent magnets as shown in Figure \ref{fig:rotor}.
+The rotor is a very symmetrical object and this symmetry should be 
+exploited immediately in its mathematical description.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.35\textwidth]{graphs/img/rotor.png}
+    \caption{An ideal rotor with 12 pairs radial-flux permanet magnets.}
+    \label{fig:rotor}
+\end{figure}
+Start by linearizing the rotor in terms of its axial angle as shown in Figure 
+\ref{fig:linearized-rotor-mechanical}. This angle is called the 
+\emph{mechanical angle} and it is the angle that would be measured by the rotation
+of a shaft rigidly fixed to the center of the rotor.  The rotor is clearly periodic
+every $2\pi$ mechanical radians. However, there is more fundamental periodicity
+defined by the number of $p$ of pole pairs as shown in Figure 
+\ref{fig:linearized-rotor-electrical}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{graphs/img/rotor_unrolled.png}
+    \caption{A linearized rotor expressed in terms of the mechanical angle $\theta_m$.}
+    \label{fig:linearized-rotor-mechanical}
+\end{figure}
+This angle is called the \emph{electrical angle} and it is fundamental because 
+it is a universal coordinate for all rotors. For reasons that will become clearl
+later, it is mathematically convienient to choose the origin of the coordinate system
+to be centered in the middle of one of the magnets.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{graphs/img/rotor_unrolled_electrical_angle.png}
+    \caption{A linearized rotor expressed in terms of the electrical angle $\theta_e$.
+    This is the fundamental magnetic unit of the rotor.}
+    \label{fig:linearized-rotor-electrical}
+\end{figure}
 
-A 3-phase inverter contains 6 switches arranged in a 3 half-bridge topology.
-Each half-bridge leg has a high and low side switch with a lead connected to a 
-motor phase between the switches.  These switches must be driven in a 
-complementary fashion to prevent grounding the source.  This  complementarity 
-requirement reduces the $2^6$ possible switching states to $2^3$. Of these 8 
-states, two correspond to zero or floating voltages when either all the 
-low-side/high-side switches are on respectively.
+The ideal radial-flux permanent magnets on the rotor are perfect magnetic dipoles
+and their magnetic field is found by solving Maxwell's equations numerically.
+The resulting field is shown in Figure \ref{fig:rotor-magnetization}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{graphs/img/rotor_magnetization.png}
+    \caption{The magnetic field of one electrical period of a rotor with
+    ideal radially polarized magnets.}
+    \label{fig:rotor-magnetization}
+\end{figure}
+It is known from Maxwell's equations that currents produce magnetic fields.
+Therefore, by controlling currents near the surface of the rotor it will be
+possible to generate an interaction between two fields to produce rotation.
+The purpose of motor control is to control the electromagnetic properties of the 
+interaction between the fields of the rotor and the currents.
 
-Now, each of the remaining 6 states will produce discrete line-to-neutral
-voltages in the stator windings of the motor that they are connected to.
-These states are given by:  
-\[
-(s_a, s_b, s_c)\in \{0, 1\}^3
-\]
-What voltages can these switching states produce in the phases of the stator?
-Let $V_\text{dc}$ be the DC bus voltage. Consider one leg of the inverter first
-and let the voltage of this phase be $v_i$.  At any moment either the high-side
-switch is on connecting the phase to $V_\text{dc}$ or the low-side switch is on
-grounding it.  Thus the phase-node voltages are
-\[
-v_a, v_b, v_c \in \{0, V_\text{dc}\}.
-\]
-The set of all physically possible raw node voltages are the points
-\[
-\{0, V_\text{dc}\}^3 \subset \mathbb{R}^3
-\]
-which form the vertices of a cube. In fact, by suitable averaging, the inverter
-can realize any point in the convex hull of these vertices.
+In order to understand how the current field acts on the rotor, it must be
+understood how electromagnetic fields exert forces on material bodies.
+The fundamental principle is that electromagnetic forces arise from the 
+momentum carried by the electromagnetic field itself.  This momentum flux is
+described by the \emph{Maxwell stress tensor} which encodes the pressure and 
+shear stresses exerted by the field on surfaces that couple to it.
 
-However, it is important to note that there is a physical redunancy in this
-representation because the current in the stator windings does not depend on raw
-voltages. 
-Faraday's Law states
+In quasi-magnetostatic conditions relevant to the interaction of the rotor
+and stator, the Maxwell stress tensor $T_{ij}$ is 
 \[
-e_{ab} = \frac{d\lambda}{dt},
+T_{ij} = \frac{1}{\mu_0}\Big(B_iB_j - \frac{1}{2}\delta_{ij}B^2) \text{ where $i,j=\{\theta_e, r\}$}.
 \]
-and the electrical winding voltage is $v_{ab} = v_a - v_b$.
-Therefore the current that flows in the stator depends on the voltage 
-differences \emph{between} the phases, not their value relative to some ground.
-This means that adding the same constant $k$, called a common-mode, to all three
-leg voltages
-\[
-(v_a, v_b, v_c) \mapsto (v_a + k, v_b + k, v_c + k)
-\]
-leaves all phase-to-phase voltages $v_{ab}, v_{bc}, v_{ca}$ unchanged.
-Hence, many points in the cube represent the same physical winding voltages
-and currents.
+The indices of this tensor have geometric meaning. $j$ specifies the direction 
+of the surface normal that the electromagnetic field is acting on. $i$ specifies
+the direction of the component of the force acting on the surface.
+The surface that a force will applied to is the surface of the rotor whose unit-normal 
+is $\hat{r}$ and the component of the force that will produce torque will be in the
+tangential $\hat{\theta}$ direction. Therefore the \emph{only} component of the
+Maxwell stress tensor that will produce torque on the rotor is the $T_{\theta r}$ term.
 
-To remove this redundancy, quotient out the common-mode by solving for it in terms
-of the $v_a, v_b, v_c$ voltages.  If the stator is wound in a Y-connected with 
-a floating neutral, Kirchoff's Current Law at the neutral node gives
-\[
-\frac{v_a - v_N}{Z_a} + \frac{v_b - v_N}{Z_b} + \frac{v_c - v_N}{Z_c} = 0
-\]
-For balanced phases $Z_a = Z_b = Z_c$, which simplifies to
-\[
-v_a - v_N + v_b + v_N + v_c + v_N = 0
-\]
-and therefore
-\[
-v_N = \frac{v_a + v_b + v_c}{3}.
-\]
-Identifying $v_N = -k$, referencing the voltages to neutral provides the 
-constraint that elimnates the redundancy.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{graphs/img/rotor_maxwell_tensor.png}
+    \caption{The magnetic field of one electrical period of a rotor with
+    ideal radially polarized magnets.}
+    \label{fig:rotor_maxwell_tensor}
+\end{figure}
 
-Geometrically, subtracting the neutral voltage is equivalent to projecting the
-convex hull of the cube $[0, V_\text{dc}]^3$ onto the 2-dimensional plane
-\[
-v_{aN} + v_{bN} + v_{cN} = 0
-\]
-This is a linear projection along the direction of the vector $(1, 1, 1)$.
 
-It is self-evident that it will be useful to produce voltages other than these 
-6 discrete states in the stator windings through some method of
-time-averaging.  The detailed discussion of this averaging is deffered for the 
-moment.
-
-What can be said mathematically about the set of physically valid line-to-neutral 
-voltage triplets $(v_a, v_b, v_c)$? Firstly, it is naturally a vector space.  If all the 
-low-side switches are on, every leg is grounded and there is therefore a zero vector
-$(0, 0, 0)$. Given two voltage triplets $(v_a, v_b, v_c)$ and $(w_a, w_b, w_c)$
-their sum $(v_a+w_a, v_b+w_b, v_c+w_c)$ is also a valid voltage, assuming that
-the sum is less than the inverter source. An additive inverse exists because
-the inverter can produce negative voltages.  Therefore it is natural to
-associate each state of the inverter with a point in $\mathbb{R}^3$. 
-
-Secondly, the set of possible points is confined by Kirchhoff's Voltage Law
-to the plane $v_a + v_b + v_c = 0$. Therefore the voltages lie in:
-\[
-V = \{ (v_a, v_b, v_c) \in \mathbb{R}^3 \mid v_a + v_b + v_c = 0 \}
-\]
-Returning to the discrete states for a moment. These 6 discrete states form a 
-hexagon in the voltage plane.
-Since this plane is a two-dimensional subset of $\mathbb{R}^3$, it can be
-completely described by two vectors lying in it.
 \end{document}
