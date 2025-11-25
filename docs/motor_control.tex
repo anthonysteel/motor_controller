@@ -27,84 +27,225 @@
 \begin{document}
 
 \maketitle
-The fundamental unit of a permanent magnet motor is the rotor containing
-$p$ pairs of ideal radial-flux permanent magnets as shown in Figure \ref{fig:rotor}.
-The rotor is a very symmetrical object and this symmetry should be 
-exploited immediately in its mathematical description.
+\section{Introduction}
+
+The fundamental electromagnetic unit of a motor is the interaction of two fields
+in a region called the \emph{air-gap}. The goal of motor control is to manipulate
+the fields in the air-gap to control relevant physical quantities such as
+torque, speed, position, energy, and power. In a permanent-magnet motor one of
+these fields is produced by permanent magnets and the other is produced by
+currents. The mechanism that contains the permanent magnets is called the
+\emph{rotor} because it is free to rotate, while the one that carries the currents
+is called the \emph{stator} because it is generally stationary relative to the
+labratory.
+
+\section{Preliminaries}
+
+\subsection{Maxwell's Equations}
+Begin with the macroscopic Maxwell equations in SI units,
+
+\begin{align}
+\nabla \cdot \mathbf{B} &= 0,\\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t},\\
+\nabla \cdot \mathbf{D} &= \rho_\mathrm{f},\\
+\nabla \times \mathbf{H} &= \mathbf{J}_\mathrm{f} + \frac{\partial\mathbf{D}}{\partial t},
+\end{align}
+where $\rho_\mathrm{f}$ and $\mathbf{J}_\mathrm{f}$ denote the free charge and
+free current densities, and
+\[
+\mathbf{B} = \mu_0(\mathbf{H} + \mathbf{M}),\qquad
+\mathbf{D} = \varepsilon_0 \mathbf{E} + \mathbf{P}
+\]
+are the magnetic flux density and electric displacement expressed in terms of
+the magnetic and electric polarizations $\mathbf{M}$ and $\mathbf{P}$.
+
+The air-gap region $V_g$ lies between the rotor and stator surfaces as shown in
+Figure \ref{fig:air-gap}.  By construction, it has no current-carrying conductors
+and no magnetic material, so in $V_g$
+\[
+\mathbf{J}_\mathrm{f} = \mathbf{0},\qquad \mathbf{M} = \mathbf{0}.
+\]
+Furthermore, as the name suggests, the gap is filled with air which is approximated
+as linear, homogenous and isotropic with
+\[
+\mathbf{B} = \mu_0 \mathbf{H}, \qquad \mathbf{D} = \varepsilon_0 \mathbf{E}.
+\]
+
+\subsection{Magnetoquasistatic Approximation}
+
+
+
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.35\textwidth]{graphs/img/rotor.png}
-    \caption{An ideal rotor with 12 pairs radial-flux permanet magnets.}
+    \includegraphics[width=\textwidth]{plots/img/air_gap.png}
+    \caption{The air-gap of a motor. The region of space where the stator and r
+    otor fields interact to produce torque on the surface of the rotor. No
+    fields are shown.}
+    \label{fig:air-gap}
+\end{figure}
+
+
+The air-gap contains no free currents, so Maxwell's equations reduce to the
+magnetostatic form called Laplace's equation:
+\[
+\nabla^2\Phi = 0,
+\]
+where $\Phi$ is the \emph{scalar magnetic potential}. The magnetic fields are
+recovered from the scalar potential by $\mathbf{B} = -\mu_0 \nabla \Phi$. 
+The physically admissible general solution to Laplace's equation in the air-gap
+using 2D cylindrical coordinates is a linear superposition of Fourier modes with 
+radial decay factors,
+\[
+\Phi(r,\theta) =
+\sum_{n=1}^{\infty} A_n r^{-n}\cos(n\theta) + B_n r^{-n}\sin(n\theta).
+\]
+This representation of the solution is convenient when one wants to utilize the
+orthogonality of the Fourier modes to simplify algebra, as will be done later, 
+however it hides the phase relations between modes in the expansion 
+coefficients. The equivalent representation
+\[
+\Phi(r,\theta) = 
+\sum_{n=1}^\infty C_n r^{-n} \cos(n\phi - \psi_n)
+\]
+with $C_n = \sqrt{A_n^2 + B_n^2}$ and $\phi_n = \arctan(B_n, A_n)$ by using
+suitable trignometric identities. Any field that can exist in the air-gap will
+be represented by this solution with suitable coefficients and 
+boundary-conditions.
+
+In order for the magnetic fields generated in the air-gap to produce rotation,
+they must exert a torque on the rotor. To understand this, one must describe
+how electromagnetic fields apply forces to material bodies. Electromagnetic
+forces arise from exchanges of momentum between the electromagnetic field and
+matter. This momentum flux is described by the \emph{Maxwell stress tensor}, which
+encodes the pressure and shear stresses that the fields exert on surfaces.
+
+In cylindrical coordinates in the air-gap the Maxwell stress tensor $\mathbf{T}$
+takes the form
+\[
+T_{ij} =
+\frac{1}{\mu_0}\Big(B_i B_j - \tfrac{1}{2}\delta_{ij} B^2\Big),
+\]
+where the indices $i,j$ run over $r$ and $\theta$. These indices have geometric
+meaning: $j$ specifies the direction of the surface normal on which the field
+acts, while $i$ specifies the direction of the force that the field applies on 
+that surface. In cylndrical coordinates, pressure corresponds to a force
+exerted in the radial $r$ direction, while shear is a force exerted in
+the tangential $\theta$ direction.
+
+In a permanent-magnet motor, the surface that the electromagnetic forces are 
+applied is the surface of the rotor, whose unit normal is $\hat{r}$, and the component of the force that
+produces torque lies in the tangential $\hat{\theta}$ direction. Therefore the
+\emph{only} component of the Maxwell stress tensor that produces torque on the rotor
+is the $T_{\theta r}$ term, given by:
+\[
+T_{\theta r} = \frac{1}{\mu_0} B_r B_\theta.
+\]
+For a moment, let the radial and tangential fields have contributions
+from both the rotor and stator fields, that is
+\[
+B_r = B_r^s + B_r^r,\qquad B_\theta = B_\theta^s + B_\theta^r
+\]
+where the superscript $r$ and $s$ denote the rotor and stator respectively.
+Then the torque producing component of the Maxwell stress tensor is
+\[
+T_{\theta r} = \frac{1}{\mu_0} \Big(B_r^sB_\theta^s + B_r^sB_\theta^r + B_r^rB_\theta^s
++ B_r^rB_\theta^r)\Big)
+\]
+The two terms $B_r^sB_\theta^s$ and $B_r^rB_\theta^r$ are \emph{self-interaction}
+terms which must produce zero torque.
+To see this, if the rotor or stator is considered in isolation, its own field
+cannot produce a net rigid-body torque on itself. The associated Maxwell stresses
+are internal stresses that integrate to zero net torque. Therefore only the 
+cross-terms can contribute to electromagnetic torque on the rotor.
+
+
+The total electromagnetic torque is obtained by integrating this component
+around the air-gap,
+\[
+T = \frac{R^2 L}{\mu_0}\int_0^{2\pi} B_r(\theta)\,B_\theta(\theta)\,d\theta.
+\]
+Both $B_r$ and $B_\theta$ admit Fourier expansions in $\theta$, as previously
+shown:
+\[
+B_r = \sum_{n=1}^\infty a_n\cos(n\theta) + b_n\sin(n\theta),\qquad
+B_\theta = \sum_{m=1}^\infty c_m \cos(m\theta) + b_m\sin(m\theta).
+\]
+Calculating the torque produces the rather long expression,
+\[
+\begin{gathered}
+T = \frac{R^2L}{\mu_0}\int^{2\pi}_0\sum_{n=1}^\infty\sum_{m=1}^\infty 
+a_nc_m\cos(n\theta)\cos(m\theta) + a_nb_m\cos(n\theta)\sin(m\theta) + \\
+b_nc_m\sin(n\theta)\cos(m\theta) + b_nb_m\sin(n\theta)\sin(m\theta)\,d\theta.
+\end{gathered}
+\]
+Luckily, the orthogonality relations for Fourier modes can be readily utilized,
+namely
+\[
+\int_0^{2\pi}\cos(n\theta)\cos(m\theta)d\theta =  
+\begin{cases}
+0, & n\neq m\\
+\pi, & n=m\neq0,
+\end{cases}
+\]
+\[
+\int_0^{2\pi}\sin(n\theta)\sin(m\theta) = 
+\begin{cases}
+0, & n\neq m\\
+\pi, & n=m\neq0,
+\end{cases}
+\]
+\[
+\int_0^{2\pi}\cos(n\theta)\sin(m\theta)d\theta = 0\; \; \; \forall\, n,m,
+\]
+so that all cross-terms vanish and
+\[
+T = \frac{\pi R^2L}{\mu_0}\sum_{n=1}^\infty(a_nc_n + b_nd_n).
+\]
+To make the phase relations between modes explicit, use the transformations
+discussed previously. Let $B_{r,n}=\sqrt{a_n^2 + b_n^2}\;$, $B_{\theta,n} =
+\sqrt{c_n^2 + d_n^2}\;$, $\phi_{r,n} = \arctan(b_n, a_n)\;$, and $\phi_{\theta,n}
+= \arctan(d_n, c_n)$. The torque becomes
+\[
+T = \frac{\pi R^2 L}{\mu_0}\sum_{n=1}^\infty B_{r,n}B_{\phi,n}
+\cos(\phi_{\theta,n} - \phi_{r,n})
+\]
+This expression for torque is the first interesting result.
+The net torque on the rotor is determined \emph{only} by harmonics of the same 
+spatial order. Equivalently, the net torque is constant over the  surface of the 
+rotor even though local torque density around the air-gap is not. The local spatial
+variations in the torque density cancel out when the torque over the entire
+air-gap is considered. 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{plots/img/rotor_analytic.png}
+    \caption{The magnetization of an ideal permanent magnet rotor.}
     \label{fig:rotor}
 \end{figure}
-Start by linearizing the rotor in terms of its axial angle as shown in Figure 
-\ref{fig:linearized-rotor-mechanical}. This angle is called the 
-\emph{mechanical angle} and it is the angle that would be measured by the rotation
-of a shaft rigidly fixed to the center of the rotor.  The rotor is clearly periodic
-every $2\pi$ mechanical radians. However, there is more fundamental periodicity
-defined by the number of $p$ of pole pairs as shown in Figure 
-\ref{fig:linearized-rotor-electrical}.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.75\textwidth]{graphs/img/rotor_unrolled.png}
-    \caption{A linearized rotor expressed in terms of the mechanical angle $\theta_m$.}
-    \label{fig:linearized-rotor-mechanical}
-\end{figure}
-This angle is called the \emph{electrical angle} and it is fundamental because 
-it is a universal coordinate for all rotors. For reasons that will become clearl
-later, it is mathematically convienient to choose the origin of the coordinate system
-to be centered in the middle of one of the magnets.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.75\textwidth]{graphs/img/rotor_unrolled_electrical_angle.png}
-    \caption{A linearized rotor expressed in terms of the electrical angle $\theta_e$.
-    This is the fundamental magnetic unit of the rotor.}
-    \label{fig:linearized-rotor-electrical}
-\end{figure}
-
-The ideal radial-flux permanent magnets on the rotor are perfect magnetic dipoles
-and their magnetic field is found by solving Maxwell's equations numerically.
-The resulting field is shown in Figure \ref{fig:rotor-magnetization}.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\textwidth]{graphs/img/rotor_magnetization.png}
-    \caption{The magnetic field of one electrical period of a rotor with
-    ideal radially polarized magnets.}
-    \label{fig:rotor-magnetization}
-\end{figure}
-It is known from Maxwell's equations that currents produce magnetic fields.
-Therefore, by controlling currents near the surface of the rotor it will be
-possible to generate an interaction between two fields to produce rotation.
-The purpose of motor control is to control the electromagnetic properties of the 
-interaction between the fields of the rotor and the currents.
-
-In order to understand how the current field acts on the rotor, it must be
-understood how electromagnetic fields exert forces on material bodies.
-The fundamental principle is that electromagnetic forces arise from the 
-momentum carried by the electromagnetic field itself.  This momentum flux is
-described by the \emph{Maxwell stress tensor} which encodes the pressure and 
-shear stresses exerted by the field on surfaces that couple to it.
-
-In quasi-magnetostatic conditions relevant to the interaction of the rotor
-and stator, the Maxwell stress tensor $T_{ij}$ is 
-\[
-T_{ij} = \frac{1}{\mu_0}\Big(B_iB_j - \frac{1}{2}\delta_{ij}B^2) \text{ where $i,j=\{\theta_e, r\}$}.
-\]
-The indices of this tensor have geometric meaning. $j$ specifies the direction 
-of the surface normal that the electromagnetic field is acting on. $i$ specifies
-the direction of the component of the force acting on the surface.
-The surface that a force will applied to is the surface of the rotor whose unit-normal 
-is $\hat{r}$ and the component of the force that will produce torque will be in the
-tangential $\hat{\theta}$ direction. Therefore the \emph{only} component of the
-Maxwell stress tensor that will produce torque on the rotor is the $T_{\theta r}$ term.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{graphs/img/rotor_maxwell_tensor.png}
-    \caption{The magnetic field of one electrical period of a rotor with
-    ideal radially polarized magnets.}
-    \label{fig:rotor_maxwell_tensor}
+    \includegraphics[width=\textwidth]{plots/img/rotor_analytic_magnetization.png}
+    \caption{The magnetic field outside an ideal permanent magnet rotor.}
+    \label{fig:rotor_magnetization}
 \end{figure}
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{plots/img/rotor_and_stator_air_gap.png}
+    \caption{The magnetic field of an ideal stator and rotor decomposing the
+    field in term of the component contributions from the stator and rotor.
+    The stator field is entirely tangential, while the rotor field is entirely
+    radial at the center of the magnetic poles.}
+    \label{fig:rotor-stator-air-gap}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{plots/img/rotor_and_stator_torque_density.png}
+    \caption{The tangential shear component of the Maxwell stress tensor in the
+    air-gap. This gives the torque density at each point. The torque denisty is
+    highest along the surface of the rotor.}
+    \label{fig:rotor-stator-torque-density}
+\end{figure}
 
 \end{document}
