@@ -20,7 +20,7 @@
 % Hyperlinks
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
 
-\title{Permanent Magnet Motor Control}
+\title{Permanent-Magnet Motor Control}
 \author{Anthony J. Steel}
 \date{\today}
 
@@ -48,7 +48,8 @@ Begin with the macroscopic Maxwell equations in SI units,
 \nabla \cdot \mathbf{B} &= 0,\\
 \nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t},\\
 \nabla \cdot \mathbf{D} &= \rho_\mathrm{f},\\
-\nabla \times \mathbf{H} &= \mathbf{J}_\mathrm{f} + \frac{\partial\mathbf{D}}{\partial t},
+\nabla \times \mathbf{H} &= \mathbf{J}_\mathrm{f} + 
+\frac{\partial\mathbf{D}}{\partial t},
 \end{align}
 where $\rho_\mathrm{f}$ and $\mathbf{J}_\mathrm{f}$ denote the free charge and
 free current densities, and
@@ -59,21 +60,241 @@ free current densities, and
 are the magnetic flux density and electric displacement expressed in terms of
 the magnetic and electric polarizations $\mathbf{M}$ and $\mathbf{P}$.
 
-The air-gap region $V_g$ lies between the rotor and stator surfaces as shown in
-Figure \ref{fig:air-gap}.  By construction, it has no current-carrying conductors
-and no magnetic material, so in $V_g$
+\subsection{Magnetostatic Approximation}
+The finite propogation of electromagnetic disturbances in the air-gap is
+$c = 1/\sqrt{mu_0\varepsilon_0} \approx 3 \times 10^8\, \mathrm{m/s}$.
+Let $g$ denote the characteristic thickness of the air-gap (typically of the 
+order of $1\mathrm{mm}$) and let $f_e$ be the electrical excitation frequency of
+the motor. The time required for an electromagnetic distrubance to cross the air-
+gap is 
 \[
-\mathbf{J}_\mathrm{f} = \mathbf{0},\qquad \mathbf{M} = \mathbf{0}.
+\tau = \frac{1}{f_e}
 \]
-Furthermore, as the name suggests, the gap is filled with air which is approximated
-as linear, homogenous and isotropic with
+The ratio of these time scales is
 \[
-\mathbf{B} = \mu_0 \mathbf{H}, \qquad \mathbf{D} = \varepsilon_0 \mathbf{E}.
+\varepsilon_t = \frac{\tau_{\mathrm{em}}}{T_e} = \frac{g f_e}{c}
+\]
+Even for conservative values such as $g = 1\,\mathrm{mm}$ and $f_e = 10\,\mathrm{kHz}$
+one obtains 
+\[
+\varepsilon_t = \frac{10^{-3}\times 10^4}{3\times 10^8}\approx 3 \times 10^{-8}
+\]
+and for typical permanent-magnet motors operating in the $f_e \lesssim 10^3\,\mathrm{Hz}$
+the ratio is several orders of magnitude smaller. Thus the electromagnetic field
+configuration across the air-gap adjusts effectively instantaneously relative to
+the mechanical and electrical time scales of the machine.
+
+This seperation of time scales can also be expressed directly in Maxwell's
+equations. In the current-free, homogenous air-gap the magnetic field satisfies
+the homogenous wave equation
+\[
+\nabla^2 \mathbf{H} - 
+\mu_0\varepsilon_0 \frac{\partial^2 \mathbf{H}}{\partial t^2} = 0
+\]
+Introducing characteristic length $L$ (here $L \sim g$) and angular frequency
+$\omega = 2 \pi f_e$, and dimensionles variables
+$\tilde{\mathbf{x}} = \mathbf{x}/L$ and $\tilde{t} = \omega t$, this equation 
+takes the form
+\[
+\tilde{\nabla}^2\mathbf{H} - \left(\frac{\omega L}{c}\right)^2
+\frac{\partial^2 \mathbf{H}}{\partial \tilde{t}^2} = 0.
+\]
+The dimensionless parameter 
+\[
+\varepsilon_\omega = \frac{\omega L}{c} = \frac{2\pi f_e L }{c}
+\]
+measures the importance of wave-propogation effects. For the dimensions and 
+frequencies of interest in rotating electrical machines $\varepsilon_\omega \ll 1$
+and therefore the wave term can be neglected. The field in the air-gap then
+satisfies the magnetostatic equation
+\[
+\nabla \times \mathbf{H} \approx \mathbf{0}, \qquad 
+\nabla \cdot \mathbf{B} = 0,
+\]
+with $\mathbf{B} = \mu_0 \mathbf{H}$.
+
+\subsection{Air-gap}
+The air-gap region $V_g$ is the annular region of space between the rotor and 
+stator surfaces, as shown in Figure~\ref{fig:air-gap}.  On the macroscopic level
+of Maxwell's equations, material effects enter through the polarization $\mathbf{P}$
+and magnetization $\mathbf{M}$, which relate to the fields via
+\[
+\mathbf{D} = \varepsilon_0 \mathbf{E} + \mathbf{P}, \qquad 
+\mathbf{B} = \mu_0(\mathbf{H} + \mathbf{M}).
+\]
+Free charges and currents are described by the free charge density $\rho_mathrm{f}$
+and free current density $\mathbf{J}_\mathrm{f}$. Bound charges and currents 
+associated with materials are encoded in $\mathbf{P}$ and $\mathbf{M}$, in particular,
+the bound current density is $\mathbf{J}_\mathrm{b} = \nabla \times \mathbf{M}$ 
+and the total macroscopic current density is $\mathbf{J}_\mathrm{f} + \mathrm{J}_\mathrm{b}$.
+
+In electric machines, the sources of magnetic fields are
+\begin{itemize}
+    \item free currents flowing in the stator,
+    \item bound currents associated with magnetized materials in the rotor's
+          permanent magnets.
+\end{itemize}
+By construction, all current carrying conductors are embedded in the stator and 
+do not cross the air-gap. Likewise, all magnetized materials are confined to the
+rotor and do not cross the air-gap. The air-gap $V_g$ contains only air and
+consequently
+\[
+\mathbf{J}_\mathrm{f} = \mathbf{0},\qquad \mathbf{M} = \mathbf{0}\quad
+\text{in }V_g.
 \]
 
-\subsection{Magnetoquasistatic Approximation}
+The medium filling the gap is air at standard conditions. On the macroscopic
+scale relevant to machines, air is extremely weakly polarizable and non-magnetizable,
+with relative permittivity and permeability very close to linear. It is therefore
+an excellent approximation to treat the air-gap as a linear, homogenous, isotropic
+medium with
+\[
+\mathbf{P} \approx \mathbf{0}, \qquad \mathbf{M}\approx \mathbf{0},
+\]
+so that the constitutive relations reduce to 
+\[
+\mathbf{B} = \mu_0 \mathbf{H}, \qquad
+\mathbf{D} = \varepsilon_0 \mathbf{E}
+\quad \text{in } V_g
+\]
+In other words, within the air-gap the electromagnetic field behaves as in 
+vacuum: there are no material sources, and all sources are effectively represented
+by boundary conditions on the enclosing rotor and stator surfaces.
 
+\subsection{Electromagnetic force, momentum, and the Maxwell stress tensor}
+A rigid rotor experiences torque because electromagnetic fields exert mechanical
+forces on the charges and currents it contains.  At the macroscopic level this
+mechanical force density is given by the Lorentz expansion
+\begin{equation}
+\mathbf{f} = \rho\,\mathbf{E} + \mathbf{J}\times\mathbf{B},
+\label{eq:lorentz-force-density}
+\end{equation}
+where $\rho$ and $\mathbf{J}$ are the total charge and current densities 
+(with bound and free contributions). The total force on a body occupying a
+volume $V$ is therefore
+\begin{equation}
+\mathbf{F} = \int_V \mathbf{f}\, dV,
+\label{eq:force-volume-integral}
+\end{equation}
+and the total torque about the origin is
+\begin{equation}
+\boldsymbol{\tau} = \int_V \mathbf{r}\times\mathbf{f}\, dV.
+\label{eq:torque-volume-integral}
+\end{equation}
+For a rotating electrical machine this volume would include the detailed
+distributions of currents and materials in the rotor and stator. Evaluating
+the \eqref{eq:force-volume-integral} -- \eqref{eq:torque-volume-integral} 
+directly in terms of $\rho$ and $\mathbf{J}$ is inconvenient and obscures the 
+fact that the net torque depends only on the electromagnetic field in the air-gap.
 
+A more useful representation of the mechanical action of the field is obtained
+by recasting the Lorentz force density in terms of the electromagnetic field
+itself. Combining \eqref{eq:lorentz-force-density} with Maxwell's equations and
+using standard vector identities one finds the local momentum-balance relation
+\begin{equation}
+\mathbf{f} = \nabla \cdot \mathbf{T}
+- \frac{\partial \mathbf{g}}{\partial t}
+\label{eq:momentum-balance}
+\end{equation}
+where
+\begin{equation}
+\mathbf{g} = \varepsilon_0\, \mathbf{E} \times \mathbf{B}
+\label{eq:field-momentum-density}
+\end{equation}
+is the electromagnetic momentum density and $\mathbf{T}$ is the \emph{Maxwell
+stress tensor} with Cartesian components
+\begin{equation}
+T_{ij} = \varepsilon_0\Bigl(E_i E_j - \tfrac{1}{2}\delta_{ij} E^2\Bigr)
++ \frac{1}{\mu_0}\Bigl(B_i B_j - \tfrac{1}{2}\delta_{ij}B^2\Bigr),
+\qquad i, j \in \{x, y, z\}
+\label{eq:maxwell-stress-general}
+\end{equation}
+Equation \eqref{eq:momentum-balance} expresses conservation of total momentum:
+the Lorentz force density $\mathbf{f}$ acting on matter is balanced by the
+divergence of the field stress and the time rate of change of the electromagnetic
+momentum.
+
+Integrating \eqref{eq:momentum-balance} over a volume $V$ and applying the
+divergence theorem gives
+\begin{equation}
+\mathbf{F} = \int_V \mathbf{f}\, dV
+= \oint_{\partial V} \mathbf{T} \cdot \mathbf{n}\, dS - 
+\frac{d}{dt}\int_V \mathbf{g}\, dV,
+\label{eq:force-surface-integral}
+\end{equation}
+where $\partial V$ is the boundary surface of $V$ with outward unit normal 
+$\mathbf{n}$. Thus the net mechanical force on the material inside $V$ can
+be computed directly from the electromagnetic field on the boundary of $V$.
+A similar manipulation applied to $\eqref{eq:torque-volume-integral}$ yields
+\begin{equation}
+  \boldsymbol{\tau} =
+  \oint_{\partial V} \mathbf{r}\times (\mathbf{T}\cdot\mathbf{n})\, dS
+  -\frac{d}{dt}\int_V\mathbf{r}\times\mathbf{g}\, dV.
+  \label{eq:torque-surface-integral}
+\end{equation}
+The vector $\mathbf{T}\cdot\mathbf{n}$ is the traction exerted by the field on
+a surface element with normal $\mathbf{n}$: its normal component corresponds to
+an electromagnetic pressure and its tangential components correspond to shear
+stresses.
+
+In the magnetoquasistatic operating regime of a permanent-magnet motor, the
+fields in the air-gap vary slowly and the electric field is small compared with 
+the magnetic field insofar as mechanical effects are concerned. To an excellent
+approximation in the air-gap, the electric contribution to the stress tensor 
+and field-momentum term may be neglected, so that 
+\eqref{eq:maxwell-stress-general} reduces
+\begin{equation}
+T_{ij} = \frac{1}{\mu_0}\Bigl(B_i B_j - \tfrac{1}{2}\delta_{ij} B^2\Bigr),
+\label{eq:maxwell-stress-magnetic}
+\end{equation}
+and the torque on the material inside $V$ can be obtained from the purely
+magnetic surface integral
+\begin{equation}
+  \boldsymbol{\tau}
+  = \oint_{\partial V} \mathbf{r} \times (\mathbf{T}\cdot\mathbf{n})\, dS.
+  \label{eq:torque-magnetic-stress}
+\end{equation}
+
+The key advantage of \eqref{eq:torque-magnetic-stress} in the motor context is
+that $\partial V$ may be taken to lie entirely in the current-free,
+magnetization-free air-gap.  All the details of the stator and rotor implementation
+enter only through the magnetic field $\mathbf{B}$ on this surface.  The 
+Maxwell stress tensor therefore provides a rigorous way to compute the net 
+electromagnetic torque on the rotor using only the air-gap field.
+
+For the machines considered here the geometry is ideally invariant in the axial
+$z$-direction and only torque about the $z$-axis is of interest.  A convenient
+choice for $\partial V$ is a cylindrical surface of radius $R$ in the air-gap,
+coaxial with the rotor and extending over the stack length $L$. On this surface
+the outward normal is $\mathbf{n} = \hat{\mathbf{e}}_r$ and the traction is
+\[
+\mathbf{T}\cdot\mathbf{n} = 
+T_{rr} \hat{\mathbf{e}}_r + T_{\theta r} \hat{\boldsymbol{\theta}} +
+T_{zr} \hat{\mathbf{e}}_z
+\]
+The torque density about the $z$-axis is determined by the tangential component
+of this traction:
+\[
+d\tau_z = R\, T_{\theta r}\, dS,
+\]
+with $dS = R L\, d\theta$ for the cylndrical surface element.  In the 
+two-dimensional model used here the fields are independent of $z$ and $B_z\approx 0$,
+so that \eqref{eq:maxwell-stress-magnetic} gives
+\begin{equation}
+T_{\theta r} = \frac{1}{\mu_0} B_\theta B_r.
+\label{eq:t-theta-r}
+\end{equation}
+Integrating around the circumference yields the electromagnetic torque about the
+$z$-axis,
+\begin{equation}
+  \tau_z
+= \frac{R^2 L}{\mu_0} \int_0^{2\pi} B_r(\theta)\, B_\theta(\theta)\, d\theta,
+\label{eq:torque-Br-Btheta}
+\end{equation}
+which will serve as the starting point for the harmonic analysis in the following
+sections.  This expression shows explicitly that the torque on the rotor is
+goverend by the interaction between the radial and tangential components of the
+magnetic field in the air-gap.
 
 \begin{figure}[h!]
     \centering
@@ -85,136 +306,206 @@ as linear, homogenous and isotropic with
 \end{figure}
 
 
-The air-gap contains no free currents, so Maxwell's equations reduce to the
-magnetostatic form called Laplace's equation:
-\[
-\nabla^2\Phi = 0,
-\]
-where $\Phi$ is the \emph{scalar magnetic potential}. The magnetic fields are
-recovered from the scalar potential by $\mathbf{B} = -\mu_0 \nabla \Phi$. 
-The physically admissible general solution to Laplace's equation in the air-gap
-using 2D cylindrical coordinates is a linear superposition of Fourier modes with 
-radial decay factors,
-\[
-\Phi(r,\theta) =
-\sum_{n=1}^{\infty} A_n r^{-n}\cos(n\theta) + B_n r^{-n}\sin(n\theta).
-\]
-This representation of the solution is convenient when one wants to utilize the
-orthogonality of the Fourier modes to simplify algebra, as will be done later, 
-however it hides the phase relations between modes in the expansion 
-coefficients. The equivalent representation
-\[
-\Phi(r,\theta) = 
-\sum_{n=1}^\infty C_n r^{-n} \cos(n\phi - \psi_n)
-\]
-with $C_n = \sqrt{A_n^2 + B_n^2}$ and $\phi_n = \arctan(B_n, A_n)$ by using
-suitable trignometric identities. Any field that can exist in the air-gap will
-be represented by this solution with suitable coefficients and 
-boundary-conditions.
+\section{Solving Maxwell's Equations in the Air-Gap}
+\subsection{Scalar Magnetic Potential and Laplace's Equation}
+Within the air-gap rergion $V_g$ there are no free conduction currents and no
+magnetized materials, and the medium is well approximated as a linear, homogenous
+and isotropic. In the magnetoquasistatic regime this implies that Maxwell's equations
+reduce in $V_g$ to
+\begin{equation}
+\nabla \times \mathbf{H} = \mathbf{0}, \qquad
+\nabla \cdot \mathbf{B} = 0, \qquad \mathbf{B} = \mu_0 \mathbf{H}
+\label{eq:magnetostatic-gap}
+\end{equation}
+The first of these shows that $\mathbf{H}$ is irrotational in the air-gap.
+Hence, on any simple-connected subregion of $V_g$ there exists a scalar magnetic
+potential $\Phi$ such that
+\begin{equation}
+\mathbf{H} = -\nabla\Phi \qquad \Rightarrow \qquad \mathbf{B} = -\mu_0\nabla\Phi.
+\label{eq:B-from-Phi-gap}
+\end{equation}
+\begin{equation}
+\nabla^2 \Phi = 0 \qquad \text{in } V_g,
+\label{eq:laplace-gap}
+\end{equation}
+so the scalar magnetic potential is harmonic in the air-gap.
 
-In order for the magnetic fields generated in the air-gap to produce rotation,
-they must exert a torque on the rotor. To understand this, one must describe
-how electromagnetic fields apply forces to material bodies. Electromagnetic
-forces arise from exchanges of momentum between the electromagnetic field and
-matter. This momentum flux is described by the \emph{Maxwell stress tensor}, which
-encodes the pressure and shear stresses that the fields exert on surfaces.
+As previously discussed, in the machines considered here the fields are approximetly
+invariant along the axial direction $z$, so the problem reduces to two dimensions
+in the cross-sectional $(r,\theta)$ plane.  In cylindrical coordinates with no
+$z$-dependence, the Laplace equation \eqref{eq:laplace-gap} becomes
+\begin{equation}
+\frac{\partial^2 \Phi}{\partial r^2}
++ \frac{1}{r}\frac{\partial \Phi}{\partial \theta^2} = 0.
+\label{eq:laplace-polar}
+\end{equation}
+On the annular ring $R_s < r < R_r$ the general seperable solution of 
+\eqref{eq:laplace-polar} can be written as
+\begin{equation}
+  \Phi(r,\theta) = A_0 + B_0\ln r + \sum_{n=1}^\infty \Bigl[
+    \bigl(a_n r^n + b_n r^{-n}\bigr)\cos(n\theta) + \bigl(c_n r^n + d_n r^{-n}\bigr)
+    \sin(n\theta)\Bigr],
+\label{eq:Phi-general}
+\end{equation}
+where the coefficients are determined by the boundary conditions imposed by the
+rotor and stator on $r=R_s$ and $r=R_r$.  The constant $A_0$ is an arbitary gauge
+for the potential and does not affect the magnetic field.  The $B_0\ln r$ term
+and the $r^{\pm n}$ terms represent different radial behaviours compatible with
+Laplace's equation on the finite annulus; the particular combination present in
+a given machine is fixed by the physical boundary conditions.
 
-In cylindrical coordinates in the air-gap the Maxwell stress tensor $\mathbf{T}$
-takes the form
-\[
-T_{ij} =
-\frac{1}{\mu_0}\Big(B_i B_j - \tfrac{1}{2}\delta_{ij} B^2\Big),
-\]
-where the indices $i,j$ run over $r$ and $\theta$. These indices have geometric
-meaning: $j$ specifies the direction of the surface normal on which the field
-acts, while $i$ specifies the direction of the force that the field applies on 
-that surface. In cylndrical coordinates, pressure corresponds to a force
-exerted in the radial $r$ direction, while shear is a force exerted in
-the tangential $\theta$ direction.
+The magnetic flux density components in cylindrical coordinates are obtained
+from \eqref{eq:B-from-Phi-gap} as
+\begin{equation}
+B_r(r,\theta) = -\mu_0 \frac{\partial \Phi}{\partial r}, \qquad
+B_\theta(r, \theta) = -\frac{\mu_0}{r}\frac{\partial \Phi}{\partial \theta}.
+\label{eq:BrBtheta-from-Phi}
+\end{equation}
+For the torque calculation it is sufficient to know $B_r$ and $B_\theta$ on a
+single cylndrical surface of radius $R$ lying in the air-gap. At any fixed
+radius $R$ the functions $B_r(R,\theta)$ and $B_\theta(R,\theta)$ are
+$2\pi$-periodic in $\theta$ and therefore admit a Fourier series of the form
+\begin{equation}
+B_r(R,\theta) = \sum_{n=1}^\infty \bigl(a_n \cos(n\theta) + b_n\sin(n\theta)\bigr),
+\end{equation}
 
-In a permanent-magnet motor, the surface that the electromagnetic forces are 
-applied is the surface of the rotor, whose unit normal is $\hat{r}$, and the component of the force that
-produces torque lies in the tangential $\hat{\theta}$ direction. Therefore the
-\emph{only} component of the Maxwell stress tensor that produces torque on the rotor
-is the $T_{\theta r}$ term, given by:
+\subsection{Ideal Rotor and Stator Fields}
+Because the magnetostatic equations in the air-gap are linear, the total magnetic 
+field can be decomposed into contributions from the rotor and stator sources.
+Let $\mathbf{B}^r$ denote the field produced by the rotor alone with the
+stator source currents set to zero, and let $\mathbf{B}^2$ denote the field 
+produced by the stator currents with the rotor demagnetized.  In the air-gap
+$V_g$ both fields satisfy the same governing equations,
+\begin{equation}
+\nabla\times\mathbf{H}^{r,s} = \mathbf{0},\qquad
+\nabla\cdot\mathbf{B}^{r,s} = 0,\qquad
+\mathbf{B}^{r,s} = \mu_0 \mathbf{H}^{r,s},
+\end{equation}
+and superposition gives
+\begin{equation}
+\mathbf{B} = \mathbf{B}^r + \mathbf{B}^s,\qquad
+\mathbf{H} = \mathbf{H}^r + \mathbf{H}^s.
+\end{equation}
+The distinct role of the rotor and stator enter through their boundary conditions 
+at the rotor surface $r=R_r$ and stator surfaces $r=R_s$, respectively.
+These boundary conditions are determined by the internal magnetization and currents
+in the rotor and stator regions.
+
+At any material interface the fields satisfy
+\begin{align}
+  \hat{\mathbf{n}}\cdot(\mathbf{B}_2 - \mathbf{B}_1) &= 0, \label {eq:BC-normalB}\\
+  \hat{\mathbf{n}}\times(\mathbf{H}_2 -\mathbf{H}_1) &= \mathbf{H}_\mathrm{f},
+  \label{eq:BC-tangH}
+\end{align}
+where $\hat{\mathbf{n}}$ is the unit normal pointing from region $1$ into region
+$2$ and $\mathbf{K}_\mathrm{f}$ is any free surface current density on the interface.
+Equation \eqref{eq:BC-normalB} expresses continuity of the normal component of
+$\mathbf{B}$, while \eqref{eq:BC-tangH} relates the jump in tangential $\mathbf{H}$
+to surface currents. In a typical machine the rotor and stator iron have relative
+permeability $\mu_r \gg 1$, so that, to a good approximation, $\mathbf{B}$ is nearly
+normal to the iron surfaces and the normal component is determined by the internal
+magnetization or current distribution.
+
+\subsection{Ideal Rotor}
+Consider the rotor assembly occupying $r < R_r$, consisting of high-permeability
+iron and permanent magnets. With the stator unexcited, the rotor field $\mathbf{B}^r$
+in the air-gap is governed by the magnetostatic equations with boundary conditions on
+$r = R_r$ fixed by the rotor magnetization.  An \emph{ideal rotor of spatial order
+$n$} is defined as a rotor for which, in this rotor-only configuration, the radial
+and tangential components of the air-gap field at the surface of the rotor satisfy
+\begin{equation}
+  B_r^r(R_r,\theta) = a \cos(n\theta),\qquad
+  B_\theta^r(R_r, \theta) = 0,
+  \label{eq:ideal-rotor-BC}
+\end{equation}
+for some real amplitude $a > 0$ and integer $n \ge 1$.
+
+This definition encodes two simplifying properties:
+\begin{enumerate}
+  \item The radial flux on the rotor surface is a \emph{single spatial harmonic}
+        of order $n$ (no higher-order harmonics are present).
+  \item The field at the rotor surface is \emph{purely radial} (normal to the
+        surface), consistent with the limit of very high rotor permeability in
+        which the tangential component of $\mathbf{B}$ at the iron surface is 
+        supressed.
+\end{enumerate}
+Physically, such a field can be realized arbitrarily closely by an appropriate
+circumferential magnetization pattern in a cylindrical permanent-magnet shell
+backed by a high permeability iron, as illustrated in Figure \ref{fig:rotor}.
+The constant $n$ is the number of \emph{pole pairs} $p$ of the rotor field.
+
+\subsection{Ideal Stator}
+Similarly, consider the stator assembly occuping $r > R_s$, consisting of 
+ferromagnetic iron and current-carrying windings. With the rotor demagnetized,
+the stator field $\mathbf{B}^s$ in the air-gap is determined by Ampere's Law
+and the current distribution in the windings. The tangential component of $\mathbf{H}^s$
+at the stator inner surface is related to the stator surface current density
+$\mathbf{K}_\mathrm{f}$ by \eqref{eq:BC-tangH}. In many machines the stator is
+designed so that the resulting air-gap field is dominated by a single spatial
+harmonic of perscribed order.
+
+An \emph{ideal stator of spatial order $n$} is defined as a stator for which,
+in the stator-only configuration, the air-gap field at the stator surface satisfied
+\begin{equation}
+B_r^s(R_s,\theta) = 0, \qquad 
+B_\theta^s(R_s,\theta) = b\cos(n\theta - \phi_s),
+\label{eq:ideal-stator-BC}
+\end{equation}
+for some amplitude $b>0$, phase $\phi_s$, and the same integer $n \ge 1$.
+Here 
+\begin{enumerate}
+  \item The tangential flux density on the stator surface is a \emph{single
+  spatial harmonic} of order $n$, corresponding to a sinusoidally distributed 
+  stator magnetomotive force (MMF) with $n$ pole pairs.
+  \item The field at the stator surface is \emph{purely tangential}, as expected
+  in the ideal limit of a smooth, high-permeability stator core with no normal
+  flux crossing the inner surface except through discrete teeth.
+\end{enumerate}
+In practice, a distributed stator winding with appropriately chosen coil pitch
+and distribution can approximate \eqref{eq:ideal-stator-BC} closely by supressing
+higher spatial harmonics and producing a nearly sinusoidal rotating air-gap field.
+
+\subsection{Ideal Rotor-Stator Pair and Torque}
+When both the rotor and stator are present and energized, the total air-gap field
+is the sum
 \[
-T_{\theta r} = \frac{1}{\mu_0} B_r B_\theta.
+B_r = B_r^r + B_r^s, \qquad
+B_\theta = B_\theta^r + B_\theta^s.
 \]
-For a moment, let the radial and tangential fields have contributions
-from both the rotor and stator fields, that is
+For an ideal rotor--stator pair of order $n$, as defined above, the dominant
+contribution to the torque arises from the interaction of the $n$th spatial
+harmonic of $B_r$ and $B_\theta$. Evaluated on any cylindrical surface 
+$R_r < R < R_s$ in the air-gap, these harmonics inherit the same spatial order
+$n$ and their amplitudes and phase can be written as
 \[
-B_r = B_r^s + B_r^r,\qquad B_\theta = B_\theta^s + B_\theta^r
+B_r(R,\theta) \approx B_{r,n}\cos(n\theta - \phi_r),\qquad
+B_\theta(R,\theta)\approx B_{\theta,n}\cos(n\theta - \phi_\theta),
 \]
-where the superscript $r$ and $s$ denote the rotor and stator respectively.
-Then the torque producing component of the Maxwell stress tensor is
+where $B_{r,n}$ and $B_{\theta,n}$ are proportional to $a$ and $b$ and $\phi_r$
+and $\phi_\theta$ are the corresponding phase angles. Substituting these into
+the general torque expression
 \[
-T_{\theta r} = \frac{1}{\mu_0} \Big(B_r^sB_\theta^s + B_r^sB_\theta^r + B_r^rB_\theta^s
-+ B_r^rB_\theta^r)\Big)
+T = \frac{\pi R^2 L}{\mu_0} \sum_{k=1}^\infty B_{r,k} B_{\theta,k} \cos\bigl(
+  \phi_{r,k} - \phi_{\theta,k}\bigr),
 \]
-The two terms $B_r^sB_\theta^s$ and $B_r^rB_\theta^r$ are \emph{self-interaction}
-terms which must produce zero torque.
-To see this, if the rotor or stator is considered in isolation, its own field
-cannot produce a net rigid-body torque on itself. The associated Maxwell stresses
-are internal stresses that integrate to zero net torque. Therefore only the 
-cross-terms can contribute to electromagnetic torque on the rotor.
+For a perfectly aligned ideal rotor--stator pair we choose the phase reference
+such that $\phi_r = \phi_\theta$, so that the $n$th-order contribution is maximal
+and
+\begin{equation}
+T_\mathrm{max} = \frac{\pi R^2 L}{\mu_0} B_{r,n} B_{\theta, n}.
+\end{equation}
+In particular, evaluated on the rotor surface $R = R_r$ for the boundary conditions 
+\eqref{eq:ideal-rotor-BC}--\eqref{eq:ideal-stator-BC} with $\phi_s=0$, one has
+$B_{r,n}=a$ and $B_{\theta,n}=b$ and therefore
+\begin{equation}
+  T_\mathrm{max} = \frac{\pi R^2 L}{\mu_0}\, a b.
+  \label{eq:T-ideal-ab}
+\end{equation}
+The ideal rotor and stator thus provide a useful reference: for a given air-gap
+radius and stack length, they define the maximum torque obtainable from a single
+spatial harmonic of radial and tangential flux density in the air-gap.
 
 
-The total electromagnetic torque is obtained by integrating this component
-around the air-gap,
-\[
-T = \frac{R^2 L}{\mu_0}\int_0^{2\pi} B_r(\theta)\,B_\theta(\theta)\,d\theta.
-\]
-Both $B_r$ and $B_\theta$ admit Fourier expansions in $\theta$, as previously
-shown:
-\[
-B_r = \sum_{n=1}^\infty a_n\cos(n\theta) + b_n\sin(n\theta),\qquad
-B_\theta = \sum_{m=1}^\infty c_m \cos(m\theta) + b_m\sin(m\theta).
-\]
-Calculating the torque produces the rather long expression,
-\[
-\begin{gathered}
-T = \frac{R^2L}{\mu_0}\int^{2\pi}_0\sum_{n=1}^\infty\sum_{m=1}^\infty 
-a_nc_m\cos(n\theta)\cos(m\theta) + a_nb_m\cos(n\theta)\sin(m\theta) + \\
-b_nc_m\sin(n\theta)\cos(m\theta) + b_nb_m\sin(n\theta)\sin(m\theta)\,d\theta.
-\end{gathered}
-\]
-Luckily, the orthogonality relations for Fourier modes can be readily utilized,
-namely
-\[
-\int_0^{2\pi}\cos(n\theta)\cos(m\theta)d\theta =  
-\begin{cases}
-0, & n\neq m\\
-\pi, & n=m\neq0,
-\end{cases}
-\]
-\[
-\int_0^{2\pi}\sin(n\theta)\sin(m\theta) = 
-\begin{cases}
-0, & n\neq m\\
-\pi, & n=m\neq0,
-\end{cases}
-\]
-\[
-\int_0^{2\pi}\cos(n\theta)\sin(m\theta)d\theta = 0\; \; \; \forall\, n,m,
-\]
-so that all cross-terms vanish and
-\[
-T = \frac{\pi R^2L}{\mu_0}\sum_{n=1}^\infty(a_nc_n + b_nd_n).
-\]
-To make the phase relations between modes explicit, use the transformations
-discussed previously. Let $B_{r,n}=\sqrt{a_n^2 + b_n^2}\;$, $B_{\theta,n} =
-\sqrt{c_n^2 + d_n^2}\;$, $\phi_{r,n} = \arctan(b_n, a_n)\;$, and $\phi_{\theta,n}
-= \arctan(d_n, c_n)$. The torque becomes
-\[
-T = \frac{\pi R^2 L}{\mu_0}\sum_{n=1}^\infty B_{r,n}B_{\phi,n}
-\cos(\phi_{\theta,n} - \phi_{r,n})
-\]
-This expression for torque is the first interesting result.
-The net torque on the rotor is determined \emph{only} by harmonics of the same 
-spatial order. Equivalently, the net torque is constant over the  surface of the 
-rotor even though local torque density around the air-gap is not. The local spatial
-variations in the torque density cancel out when the torque over the entire
-air-gap is considered. 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{plots/img/rotor_analytic.png}
