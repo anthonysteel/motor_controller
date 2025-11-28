@@ -505,6 +505,1211 @@ The ideal rotor and stator thus provide a useful reference: for a given air-gap
 radius and stack length, they define the maximum torque obtainable from a single
 spatial harmonic of radial and tangential flux density in the air-gap.
 
+\subsection{Why the stator field must rotate for continuous torque}
+
+The harmonic torque expression \eqref{eq:T-harmonic-amplitude-phase} shows that
+the electromagnetic torque depends on the amplitudes and relative phases of the
+rotor- and stator-generated field harmonics in the air-gap. For a single
+dominant spatial order $n$ this expression reduces to
+\begin{equation}
+T(t)
+= K\, B_{r,n}(t) B_{\theta,n}(t)
+    \cos\bigl(\phi_{r,n}(t) - \phi_{\theta,n}(t)\bigr),
+\label{eq:T-single-harmonic-time}
+\end{equation}
+where
+\[
+K = \frac{\pi R^2 L}{\mu_0},
+\]
+$B_{r,n}(t)$ and $B_{\theta,n}(t)$ are the instantaneous amplitudes of the
+$n$th radial and tangential harmonics, and
+$\phi_{r,n}(t)$, $\phi_{\theta,n}(t)$ are their instantaneous spatial phases
+with respect to a fixed reference axis on the stator.
+
+For an ideal permanent-magnet rotor of order $n$ the radial component of the
+rotor field at a fixed radius $R$ can be written as a traveling wave in the
+stator reference frame,
+\begin{equation}
+B_r^r(R,\theta,t)
+= \widehat{B}_r \cos\bigl(n(\theta - \theta_m(t))\bigr),
+\label{eq:Br-rotor-traveling}
+\end{equation}
+where $\theta_m(t)$ is the mechanical rotor angle and $n$ is the number of pole
+pairs. At any fixed time $t$, comparing \eqref{eq:Br-rotor-traveling} with the
+general form
+\[
+B_r(R,\theta,t)
+= B_{r,n}(t)\cos\bigl(n\theta - \phi_{r,n}(t)\bigr)
+\]
+shows that
+\begin{equation}
+B_{r,n}(t) = \widehat{B}_r, \qquad
+\phi_{r,n}(t) = n\,\theta_m(t) + \phi_{r,0},
+\label{eq:phi-r-time}
+\end{equation}
+for some constant phase offset $\phi_{r,0}$ that depends on the choice of
+reference axis.
+
+Similarly, the $n$th-order component of the stator field at the same radius
+$R$ can be written as
+\begin{equation}
+B_\theta^s(R,\theta,t)
+= B_{\theta,n}(t)\cos\bigl(n\theta - \phi_{\theta,n}(t)\bigr),
+\label{eq:Btheta-stator-general}
+\end{equation}
+where $B_{\theta,n}(t)$ and $\phi_{\theta,n}(t)$ are determined by the stator
+currents. It is convenient to interpret $\phi_{\theta,n}(t)$ as the
+\emph{instantaneous angular position} of the stator field pattern of order $n$:
+the peaks of $B_\theta^s$ occur at angles $\theta$ satisfying
+$n\theta - \phi_{\theta,n}(t) = 0$, i.e.
+\[
+\theta = \frac{\phi_{\theta,n}(t)}{n}.
+\]
+Thus the quantity
+\begin{equation}
+\theta_s(t) := \frac{\phi_{\theta,n}(t)}{n}
+\label{eq:theta-s-def}
+\end{equation}
+can be regarded as the stator field angle for the $n$th harmonic.
+
+Substituting \eqref{eq:phi-r-time} and \eqref{eq:theta-s-def} into
+\eqref{eq:T-single-harmonic-time} gives
+\begin{equation}
+T(t)
+= K\,\widehat{B}_r B_{\theta,n}(t)
+  \cos\bigl(n\theta_m(t) - n\theta_s(t) + \Delta\phi_0\bigr),
+\label{eq:T-delta-theta}
+\end{equation}
+where $\Delta\phi_0$ is a constant phase offset. Defining the instantaneous
+\emph{electrical torque angle}
+\begin{equation}
+\delta(t)
+:= n\bigl(\theta_m(t) - \theta_s(t)\bigr) + \Delta\phi_0,
+\label{eq:delta-def}
+\end{equation}
+we can write
+\begin{equation}
+T(t)
+= K\,\widehat{B}_r B_{\theta,n}(t)\cos\delta(t).
+\label{eq:T-cos-delta}
+\end{equation}
+This expression shows that, for given amplitudes, the torque is maximized when
+$\delta(t)$ is held at a constant value near $0$ or $\pi$ (depending on the
+desired direction of torque) and vanishes when the fields are in spatial
+quadrature, $\delta = \pm \tfrac{\pi}{2}$.
+
+To understand the time evolution of $\delta(t)$, differentiate
+\eqref{eq:delta-def}:
+\begin{equation}
+\dot{\delta}(t)
+= n\bigl(\dot{\theta}_m(t) - \dot{\theta}_s(t)\bigr)
+= n\bigl(\omega_m(t) - \omega_s(t)\bigr),
+\label{eq:delta-dot}
+\end{equation}
+where
+\[
+\omega_m(t) = \dot{\theta}_m(t)
+\]
+is the mechanical angular velocity of the rotor and
+\[
+\omega_s(t) = \dot{\theta}_s(t)
+\]
+is the angular velocity of the stator field pattern (both measured in the
+stator reference frame). Equation \eqref{eq:delta-dot} makes the key point:
+\begin{itemize}
+\item If $\omega_s(t) = \omega_m(t)$, then $\dot{\delta}(t) = 0$ and the
+      torque angle $\delta$ is constant in time. In this case the rotor
+      experiences a \emph{steady} torque given by \eqref{eq:T-cos-delta}.
+\item If $\omega_s(t) \neq \omega_m(t)$, then $\delta(t)$ drifts in time at
+      the slip rate $n(\omega_m - \omega_s)$, and the torque oscillates as
+      $\cos\delta(t)$ sweeps between positive and negative values.
+\end{itemize}
+
+As a simple illustration, suppose the stator field is \emph{stationary} in the
+stator frame, so that $\omega_s(t) = 0$ and $\theta_s(t) = \theta_{s,0}$ is
+constant. Then
+\[
+\delta(t)
+= n\bigl(\theta_m(t) - \theta_{s,0}\bigr) + \Delta\phi_0.
+\]
+If we start the rotor from rest and apply this static stator field, the initial
+torque tends to accelerate the rotor toward alignment with the stator field.
+As $\theta_m(t)$ increases, the angle $\delta(t)$ passes through zero and
+continues to grow in magnitude; once $|\delta| > \tfrac{\pi}{2}$ the torque
+reverses sign and tends to decelerate the rotor. In the absence of time-varying
+control of the stator currents, the rotor settles into a static equilibrium
+with its magnetic axis aligned to the stator field, and the torque averages to
+zero over time. A purely spatially fixed stator field can therefore produce at
+most a transient torque, not sustained rotation.
+
+By contrast, if the stator currents are controlled so that the stator field
+pattern rotates with angular velocity $\omega_s(t)$ chosen to satisfy
+\[
+\omega_s(t) \approx \omega_m(t),
+\]
+then $\dot{\delta}(t)$ can be made small or zero and the torque angle
+$\delta(t)$ can be maintained near a desired constant value. In the ideal case
+of a synchronous permanent-magnet machine with negligible dynamics, the stator
+field is driven at a constant electrical angular frequency $\omega_e$, which
+produces a rotating $n$th-order field pattern with angular velocity
+\begin{equation}
+\omega_s = \frac{\omega_e}{n}.
+\end{equation}
+The condition for a constant torque angle is then
+\begin{equation}
+\omega_e = n\,\omega_m,
+\end{equation}
+the familiar synchronous-speed relation. In this regime the rotor magnetic
+pattern is effectively locked to the rotating stator field with a fixed angle
+$\delta$, and the torque \eqref{eq:T-cos-delta} becomes a nonzero constant in
+time.
+
+In summary, the requirement of a rotating stator field follows directly from
+the harmonic torque expression: the torque depends on the spatial phase
+difference between rotor and stator field patterns; a static stator field
+causes this phase difference to sweep through all angles as the rotor turns,
+leading to alternating acceleration and deceleration and zero average torque.
+To sustain a nonzero torque, the stator field must rotate in the stator frame
+so that its angular velocity matches that of the rotor field and the torque
+angle remains approximately constant.
+
+\section{Stator Currents, Air-Gap Field, and Energy Transfer}
+The torque expressions derived previously depend only on the magnetic field in
+the air-gap.  In a permanent-magnet motor this field is produced jointly by the
+rotor permanent magnets and the free-current distribution in the stator.  The 
+purpose of this section is two-fold: (i) to connect the tangential air-gap field 
+to the current distribution in the stator, and (ii) to show that the mechanical
+power associated with the air-gap torque ultimately comes from the electrical
+power supplied to the stator currents.
+
+\subsection{Stator current distribution and the air-gap field}
+Let $V_s$ denote the stator region containing the windings and iron, and let
+$\mathbf{J}_\mathrm{f}^s(\mathbf{r})$ be the free current density in the stator
+contributions. In magnetostatics the fields generated by these currents satisfy
+\begin{equation}
+\nabla\times\mathbf{H}^s = \mathbf{J}_\mathrm{f}^s, \qquad
+\nabla\cdot\mathbf{B}^s = 0, \qquad
+\mathbf{B}^s = \mu_0 \mathbf{H}^s \quad \text{in } V_g,
+\label{eq:stator-field-eqs}
+\end{equation}
+with appropriate constitutive relations in the stator iron. The superscript
+$s$ emphasizes that these are the fields that would exist if the rotor
+magnets were removed or demagnetized. Linearity then gives the total fields as
+\[
+\mathbf{B} = \mathbf{B}^r + \mathbf{B}^s, \qquad
+\mathbf{H} = \mathbf{H}^r + \mathbf{H}^s.
+\]To relate $\mathbf{J}_\mathrm{f}^s$ to the air-gap field, we consider the
+interface between the stator and the air-gap. Let $S_s$ be the inner surface
+of the stator at $r = R_s$, with unit normal $\hat{\mathbf{n}}$ pointing into
+the air-gap. The macroscopic boundary conditions at this interface are
+\begin{align}
+\hat{\mathbf{n}}\cdot(\mathbf{B}_g - \mathbf{B}_s) &= 0,
+\label{eq:BC-stator-normalB} \\
+\hat{\mathbf{n}}\times(\mathbf{H}_g - \mathbf{H}_s) &= \mathbf{K}_\mathrm{f},
+\label{eq:BC-stator-tangH}
+\end{align}
+where subscripts $g$ and $s$ denote quantities evaluated just inside the
+air-gap and stator, respectively, and $\mathbf{K}_\mathrm{f}$ is any free
+surface current density flowing on $S_s$. Physically, $\mathbf{K}_\mathrm{f}$
+represents the net current in the stator conductors crossing the interface per
+unit length, and is related to the volume current density in the slots by
+\[
+\mathbf{K}_\mathrm{f}(\theta)
+= \int_{\text{slot depth}} \mathbf{J}_\mathrm{f}^s(r,\theta)\, dr.
+\]
+
+In a typical machine the stator core is made of high-permeability iron, with
+relative permeability $\mu_r \gg 1$. In this limit the tangential component of
+$\mathbf{H}$ inside the stator iron is small compared with that in the
+air-gap. Approximating $\mathbf{H}_s$ as negligible in the tangential
+direction at $S_s$, \eqref{eq:BC-stator-tangH} gives
+\begin{equation}
+\hat{\mathbf{n}}\times\mathbf{H}_g \approx \mathbf{K}_\mathrm{f}.
+\end{equation}
+On the cylindrical surface $r = R_s$ with outward normal
+$\hat{\mathbf{n}} = \hat{\mathbf{e}}_r$, this becomes
+\begin{equation}
+H_\theta^s(R_s,\theta) \approx K_\mathrm{f}(\theta),
+\label{eq:Htheta-Kf}
+\end{equation}
+where $K_\mathrm{f}(\theta)$ is the circumferential component of the surface
+current density. Using $\mathbf{B}^s = \mu_0\mathbf{H}^s$ in the air-gap, the
+tangential component of the stator field at the air-gap boundary is therefore
+\begin{equation}
+B_\theta^s(R_s,\theta)
+\approx \mu_0 K_\mathrm{f}(\theta).
+\label{eq:Btheta-Kf}
+\end{equation}
+
+The surface current density $K_\mathrm{f}(\theta)$ is determined by the
+stator winding geometry and the phase currents. For an arbitrary winding and
+current distribution, $K_\mathrm{f}(\theta)$ can be expanded in a Fourier
+series,
+\begin{equation}
+K_\mathrm{f}(\theta)
+= \sum_{n=1}^\infty \bigl(K_n \cos(n\theta) + \tilde{K}_n \sin(n\theta)\bigr),
+\end{equation}
+and equations \eqref{eq:Htheta-Kf}--\eqref{eq:Btheta-Kf} show that the
+resulting tangential air-gap field components inherit the same harmonic
+structure:
+\begin{equation}
+B_\theta^s(R_s,\theta)
+= \sum_{n=1}^\infty \bigl(\mu_0 K_n \cos(n\theta) + \mu_0 \tilde{K}_n \sin(n\theta)\bigr).
+\label{eq:Btheta-Fourier-K}
+\end{equation}
+Comparing \eqref{eq:Btheta-Fourier-K} with the general expansion
+\eqref{eq:BrBtheta-Fourier} shows that the Fourier coefficients
+$\{c_n,d_n\}$ of the stator-generated $B_\theta$ are linear functions of the
+Fourier coefficients $\{K_n,\tilde{K}_n\}$ of the stator current sheet, which
+in turn are linear functions of the stator phase currents. Thus the tangential
+air-gap field responsible for torque is directly and linearly controlled by
+the stator currents.
+\subsection{Energy transfer from stator currents to rotor torque}
+
+The torque expression
+\begin{equation}
+T
+= \frac{R^2 L}{\mu_0}\int_0^{2\pi} B_r(\theta)\,B_\theta(\theta)\,d\theta,
+\end{equation}
+obtained from the Maxwell stress tensor, determines the instantaneous
+mechanical moment applied by the electromagnetic field to the rotor. At rotor
+mechanical angular velocity $\omega_m$, the corresponding instantaneous
+mechanical power delivered to the rotor is
+\begin{equation}
+P_\mathrm{mech} = T\,\omega_m.
+\end{equation}
+We now show that this mechanical power originates from the work done by the
+electric field on the stator currents, i.e.\ from the electrical power supplied
+to the windings.
+
+The starting point is Poynting's theorem, which expresses local conservation
+of electromagnetic energy:
+\begin{equation}
+\frac{\partial u}{\partial t}
++ \nabla\cdot\mathbf{S}
++ \mathbf{J}\cdot\mathbf{E} = 0.
+\label{eq:Poynting-local}
+\end{equation}
+Here
+\[
+u = \frac{1}{2}\bigl(\mathbf{E}\cdot\mathbf{D}
+                   + \mathbf{B}\cdot\mathbf{H}\bigr)
+\]
+is the electromagnetic energy density and
+\[
+\mathbf{S} = \mathbf{E}\times\mathbf{H}
+\]
+is the Poynting vector, representing the flux of electromagnetic energy. The
+term $\mathbf{J}\cdot\mathbf{E}$ is the power density transferred from the
+field to the charges: where $\mathbf{J}\cdot\mathbf{E}>0$, the field does work
+on the charges; where $\mathbf{J}\cdot\mathbf{E}<0$, the charges do work on the
+field.
+
+Integrating \eqref{eq:Poynting-local} over a volume $V$ containing the stator,
+air-gap and rotor, and applying the divergence theorem gives
+\begin{equation}
+\frac{d}{dt}\int_V u\, dV
++ \oint_{\partial V} \mathbf{S}\cdot\mathbf{n}\, dS
++ \int_V \mathbf{J}\cdot\mathbf{E}\, dV = 0.
+\label{eq:Poynting-integral}
+\end{equation}
+The volume integral of $\mathbf{J}\cdot\mathbf{E}$ can be split into
+contributions from the stator conductors, rotor conductors (if any) and the
+rest of the machine. In a permanent-magnet motor without rotor windings, the
+dominant term is the work done on the stator currents:
+\[
+P_\mathrm{elec}^\mathrm{stator}
+= -\int_{V_s} \mathbf{J}_\mathrm{f}^s\cdot\mathbf{E}\, dV,
+\]
+which is precisely the electrical power delivered to the stator windings by
+the external supply. The surface integral over $\partial V$ represents
+electromagnetic radiation leaving the volume; for a rotating machine in the
+magnetoquasistatic regime this term is negligible. Equation
+\eqref{eq:Poynting-integral} then expresses the balance
+\begin{equation}
+P_\mathrm{elec}^\mathrm{stator}
+= \frac{d}{dt}\int_V u\, dV + P_\mathrm{field\to mech} + P_\mathrm{loss},
+\end{equation}
+where $P_\mathrm{field\to mech}$ is the net rate at which the field does
+mechanical work on the material bodies in $V$ (including the rotor and stator
+iron), and $P_\mathrm{loss}$ accounts for ohmic and core losses. In particular,
+the mechanical power transferred to the rotor is
+\begin{equation}
+P_\mathrm{mech}^\mathrm{rotor}
+= T\,\omega_m,
+\end{equation}
+as obtained from the product of torque and angular velocity.
+
+In steady-state operation the electromagnetic energy stored in the fields over
+a cycle is periodic, so the time-average of $d/dt\int_V u\,dV$ vanishes. The
+time-averaged Poynting balance then reduces to
+\begin{equation}
+\bigl\langle P_\mathrm{elec}^\mathrm{stator} \bigr\rangle
+= \bigl\langle P_\mathrm{mech}^\mathrm{rotor} \bigr\rangle
+ + \bigl\langle P_\mathrm{loss} \bigr\rangle,
+\end{equation}
+showing that, on average, the mechanical power associated with the air-gap
+torque is drawn entirely from the electrical power supplied to the stator
+currents, aside from losses. The role of the air-gap field is to mediate this
+energy transfer: the stator currents establish the tangential field
+$B_\theta^s$ in the air-gap, which interacts with the rotor field $B_r^r$ to
+produce torque via the Maxwell stress, and the corresponding mechanical power
+$T\omega_m$ is supplied by the electrical sources driving the stator currents.
+\subsection{Flux linkage as a field--circuit coupling variable}
+
+Up to this point the analysis has been formulated entirely in terms of
+distributed electromagnetic fields in the air-gap. In order to connect this
+field description to the electrical behavior of the stator, we need a
+macroscopic quantity that couples the stator currents and voltages to the
+magnetic field. This quantity is the \emph{flux linkage}. In this subsection we
+introduce flux linkage directly from Maxwell's equations, without relying on
+any particular realization of the stator windings.
+
+\paragraph{Faraday's law for an abstract circuit.}
+Consider an arbitrary closed conducting path $C$ embedded in the stator region
+and moving rigidly with the stator (which is fixed in space). Let $S$ be any
+oriented surface whose boundary is $C$, i.e.\ $\partial S = C$, and let
+$\hat{\mathbf{n}}$ be the unit normal on $S$. Maxwell--Faraday's equation in
+integral form states that the electromotive force (EMF) around $C$ is
+\begin{equation}
+\mathcal{E}
+= \oint_C \mathbf{E}\cdot d\boldsymbol{\ell}
+= -\frac{d}{dt} \int_S \mathbf{B}\cdot\hat{\mathbf{n}}\, dS.
+\label{eq:Faraday-abstract}
+\end{equation}
+The surface integral
+\begin{equation}
+\Phi(t) := \int_S \mathbf{B}(\mathbf{r},t)\cdot\hat{\mathbf{n}}\, dS
+\label{eq:flux-S}
+\end{equation}
+is the \emph{magnetic flux} through $C$. The value of $\Phi(t)$ is independent
+of the particular choice of surface $S$ spanning $C$, provided $S$ lies in a
+region where $\nabla\cdot\mathbf{B} = 0$, as is the case in the air-gap and
+stator. Equation \eqref{eq:Faraday-abstract} may therefore be written simply
+as
+\begin{equation}
+\mathcal{E}(t) = -\frac{d\Phi(t)}{dt}.
+\label{eq:emf-dPhi-dt}
+\end{equation}
+
+In the macroscopic circuit description of the stator, the path $C$ will later
+be associated with one \emph{stator circuit} or \emph{phase}, and the EMF
+$\mathcal{E}(t)$ will be identified with the corresponding terminal voltage
+(up to the sign convention adopted for voltage and current). At this stage,
+however, we keep the description abstract: $C$ is simply a closed conducting
+loop rigidly attached to the stator, and $\Phi(t)$ is the total magnetic flux
+passing through it.
+
+\paragraph{Definition of flux linkage.}
+For a single isolated loop $C$ the magnetic flux $\Phi(t)$ defined in
+\eqref{eq:flux-S} already provides a complete description of the coupling
+between the loop and the field: Faraday's law \eqref{eq:emf-dPhi-dt} shows that
+changes in $\Phi$ directly determine the induced EMF. In a real stator,
+however, the conductors form extended paths that may pass through regions of
+nonzero magnetic field multiple times. It is therefore convenient to introduce
+the \emph{flux linkage} $\lambda(t)$ as the field quantity whose time
+derivative gives the induced EMF in the corresponding stator circuit:
+\begin{equation}
+e(t) := \mathcal{E}(t) = -\frac{d\lambda(t)}{dt}.
+\label{eq:emf-flux-linkage-def}
+\end{equation}
+For a single simple loop fixed in space one may simply set
+$\lambda(t) = \Phi(t)$. For more complicated conductor geometries, $\lambda(t)$
+is naturally interpreted as a linear functional of the magnetic field,
+\begin{equation}
+\lambda(t) = \mathcal{L}[\mathbf{B}(\cdot,t)],
+\label{eq:lambda-functional}
+\end{equation}
+where the operator $\mathcal{L}$ encodes the geometry and connectivity of the
+stator circuit under consideration. The only properties of $\mathcal{L}$ that
+will be needed in the following are:
+\begin{enumerate}
+\item \emph{Linearity in $\mathbf{B}$}: if $\mathbf{B} = \mathbf{B}_1 +
+      \mathbf{B}_2$ then
+      $\lambda = \mathcal{L}[\mathbf{B}_1] + \mathcal{L}[\mathbf{B}_2]$;
+\item \emph{Compatibility with Faraday's law}: the induced EMF in the circuit
+      is given by \eqref{eq:emf-flux-linkage-def}.
+\end{enumerate}
+The detailed form of $\mathcal{L}$ will be specified later when particular
+stator winding arrangements are introduced. For now, $\lambda$ may be regarded
+as an abstract field-dependent state variable associated with each stator
+circuit, defined so that $-d\lambda/dt$ equals the EMF induced by the changing
+magnetic field.
+
+\paragraph{Dependence on stator currents and rotor position.}
+In the magnetoquasistatic regime the magnetic field $\mathbf{B}(\mathbf{r},t)$
+is determined by the instantaneous stator currents and rotor position. Let
+$i_1,\dots,i_m$ denote $m$ independent stator circuit currents and let
+$\theta_m$ denote the rotor mechanical angle. Then, at each fixed time $t$, the
+magnetic field in the machine can be written schematically as
+\[
+\mathbf{B}(\mathbf{r},t) = \mathbf{B}(\mathbf{r};\, i_1(t),\dots,i_m(t),\theta_m(t)).
+\]
+Correspondingly, the flux linkage associated with a given stator circuit $k$
+can be regarded as a function of the instantaneous currents and rotor angle,
+\begin{equation}
+\lambda_k(t)
+= \lambda_k\bigl(i_1(t),\dots,i_m(t),\theta_m(t)\bigr).
+\label{eq:lambda-of-i-theta}
+\end{equation}
+Taking the time derivative and applying the chain rule yields
+\begin{equation}
+\frac{d\lambda_k}{dt}
+= \sum_{\ell=1}^m
+  \frac{\partial \lambda_k}{\partial i_\ell} \frac{di_\ell}{dt}
+ + \frac{\partial \lambda_k}{\partial \theta_m} \frac{d\theta_m}{dt}.
+\label{eq:lambda-chain-rule}
+\end{equation}
+Inserting this into Faraday's relation \eqref{eq:emf-flux-linkage-def} gives
+the induced EMF in circuit $k$ as
+\begin{equation}
+e_k(t)
+= -\sum_{\ell=1}^m
+    \frac{\partial \lambda_k}{\partial i_\ell} \frac{di_\ell}{dt}
+  - \frac{\partial \lambda_k}{\partial \theta_m} \omega_m(t),
+\qquad
+\omega_m = \frac{d\theta_m}{dt}.
+\label{eq:emf-separation}
+\end{equation}
+The first term represents EMF associated with time variation of the currents,
+i.e.\ the usual inductive effects. The second term is the EMF associated with
+rotor motion through the magnetic field; this is the \emph{motional EMF} or
+back-EMF that will play a central role in the rotor dynamics and torque--speed
+behavior of the machine.
+
+Equation \eqref{eq:emf-separation} shows that flux linkage is the natural
+quantity that couples the distributed magnetic field to the lumped stator
+circuit variables: its dependence on the currents determines inductive
+behavior, while its dependence on rotor position determines the back-EMF and,
+as will be seen, the electromagnetic torque.
+
+\paragraph{Topological deformation and multiple flux linkages.}
+
+The definition of flux linkage in \eqref{eq:emf-flux-linkage-def} arose from a
+single closed conducting path $C$ and an associated magnetic flux $\Phi(t)$
+through any surface $S$ with boundary $\partial S = C$. For an elementary loop,
+it is natural to set $\lambda(t) = \Phi(t)$. In a real stator, however, the
+conducting path may be deformed in space so that it passes through the same
+magnetic field region multiple times. This deformation does not change the
+fact that we have \emph{one} continuous circuit, but it does change how many
+times the circuit ``links'' the magnetic flux. The effect of such a
+deformation can be understood directly from Faraday's law.
+
+Consider an initial simple loop $C_0$ that bounds a surface $S_0$ of area $A$
+and is threaded by a magnetic field $\mathbf{B}(\mathbf{r},t)$. The flux
+through $C_0$ is
+\begin{equation}
+\Phi_0(t) = \int_{S_0} \mathbf{B}\cdot\hat{\mathbf{n}}\, dS,
+\end{equation}
+and the EMF around $C_0$ is, by Faraday's law,
+\begin{equation}
+\mathcal{E}_0(t) = -\frac{d\Phi_0(t)}{dt}.
+\end{equation}
+
+Now imagine continuously deforming the conducting path $C_0$ into a new path
+$C$ that winds around the same flux region $N$ times, as in a tightly coiled
+conductor. Topologically, $C$ is still a single closed loop, but it can be
+conveniently regarded as the series connection of $N$ simpler subloops
+$C_1,\dots,C_N$, each of which threads essentially the same magnetic field
+region. Formally, we can write the line integral of the electric field around
+$C$ as the sum of line integrals around the subloops:
+\begin{equation}
+\oint_C \mathbf{E}\cdot d\boldsymbol{\ell}
+= \sum_{k=1}^N \oint_{C_k} \mathbf{E}\cdot d\boldsymbol{\ell}.
+\label{eq:emf-sum-subloops}
+\end{equation}
+Applying Faraday's law to each $C_k$ gives
+\begin{equation}
+\oint_{C_k} \mathbf{E}\cdot d\boldsymbol{\ell}
+= -\frac{d\Phi_k(t)}{dt},
+\end{equation}
+where $\Phi_k(t)$ is the flux through any surface $S_k$ with $\partial S_k =
+C_k$. If the deformation is such that each $C_k$ spans essentially the same
+field region (for example, a tightly packed set of similar loops in a nearly
+uniform field), then to a very good approximation
+\begin{equation}
+\Phi_k(t) \approx \Phi_0(t)
+\qquad \text{for all } k=1,\dots,N.
+\end{equation}
+Substituting into \eqref{eq:emf-sum-subloops} yields
+\begin{equation}
+\mathcal{E}(t)
+= \oint_C \mathbf{E}\cdot d\boldsymbol{\ell}
+\approx -\sum_{k=1}^N \frac{d\Phi_0(t)}{dt}
+= -\frac{d}{dt}\bigl(N\Phi_0(t)\bigr).
+\end{equation}
+Comparing with the defining relation \eqref{eq:emf-flux-linkage-def},
+\[
+\mathcal{E}(t) = -\frac{d\lambda(t)}{dt},
+\]
+we see that the natural choice for the flux linkage associated with the
+deformed path $C$ is
+\begin{equation}
+\lambda(t) \approx N\,\Phi_0(t).
+\label{eq:lambda-N-phi}
+\end{equation}
+
+This reasoning shows that what matters for the induced EMF is not the
+geometric area of the original loop alone, but how many times the conducting
+path \emph{links} the magnetic flux. A topological deformation that causes the
+conductor to pass through the same field region $N$ times effectively multiplies
+the flux linkage by $N$, even though the circuit is still a single closed path.
+
+In the abstract notation of \eqref{eq:lambda-functional}, such a deformation
+corresponds to replacing the operator $\mathcal{L}$ by a new operator
+$\mathcal{L}_N$ that counts $N$ linkages of the same flux tube. Linearity of
+$\mathcal{L}$ then implies
+\begin{equation}
+\lambda_N(t) = \mathcal{L}_N[\mathbf{B}(\cdot,t)]
+\approx N\,\mathcal{L}_1[\mathbf{B}(\cdot,t)]
+= N\,\lambda_1(t),
+\end{equation}
+in agreement with \eqref{eq:lambda-N-phi}. Later, when specific stator
+constructions are introduced, these deformations will correspond to familiar
+multi-pass conductor geometries, but the underlying principle is purely
+topological: flux linkage measures how many times the circuit threads the
+magnetic field, and this number can be increased by deforming the path so that
+it passes through the flux region multiple times.
+
+\section{Rotor Dynamics, Back-EMF, and Maximum Speed}
+
+The previous sections characterized the air-gap field and showed how an ideal
+rotor--stator pair of spatial order $n$ produces electromagnetic torque,
+with a maximum torque
+\begin{equation}
+T_\mathrm{max}
+= \frac{\pi R_r^2 L}{\mu_0}\, a b,
+\end{equation}
+when the rotor and stator field harmonics are perfectly aligned. We now turn to
+the dynamics of the rotor under this torque and explain why the motor does not
+accelerate indefinitely. The key additional ingredient is the induced voltage
+(back-EMF) that arises from electromagnetic induction.
+
+\subsection{Mechanical dynamics of the rotor}
+
+The rotor can be modeled as a rigid body with moment of inertia $J$ about the
+rotation axis. Let $\omega_m$ denote the mechanical angular velocity of the
+rotor about the $z$-axis, and let $T_\mathrm{e}$ be the electromagnetic torque
+exerted on the rotor by the air-gap field. The rotational equation of motion is
+\begin{equation}
+J \frac{d\omega_m}{dt}
+= T_\mathrm{e} - T_\mathrm{L} - T_\mathrm{loss},
+\label{eq:rotor-dynamics}
+\end{equation}
+where $T_\mathrm{L}$ represents the external load torque and $T_\mathrm{loss}$
+represents frictional and other parasitic torques.
+
+In the idealized limit of zero load and zero loss,
+$T_\mathrm{L} = T_\mathrm{loss} = 0$, \eqref{eq:rotor-dynamics} reduces to
+\begin{equation}
+J \frac{d\omega_m}{dt} = T_\mathrm{e}.
+\end{equation}
+If $T_\mathrm{e}$ were a strictly constant positive torque, the solution would
+be
+\[
+\omega_m(t) = \omega_m(0) + \frac{T_\mathrm{e}}{J} t,
+\]
+so the rotor speed would increase without bound. In reality, however, the
+electromagnetic torque depends on the stator current, and the stator current is
+limited by the applied voltage and by the induced voltage (back-EMF) generated
+by the rotating magnetic field. As the rotor speeds up, the back-EMF grows and
+reduces the net current and torque, so that the acceleration eventually ceases.
+
+To make this precise we must relate the rotor motion to the induced voltage in
+the stator windings.
+
+\subsection{Electromagnetic induction and back-EMF}
+
+Back-EMF is a direct consequence of Faraday's law of induction. For any closed
+conducting loop $C$ bounding a surface $S$ with unit normal $\hat{\mathbf{n}}$,
+Faraday's law states that the electromotive force (EMF) around $C$ is
+\begin{equation}
+\mathcal{E}
+= \oint_C \mathbf{E}\cdot d\boldsymbol{\ell}
+= -\frac{d}{dt}\int_S \mathbf{B}\cdot \hat{\mathbf{n}}\, dS.
+\label{eq:Faraday-loop}
+\end{equation}
+For a stator phase winding with $N$ series turns, the total flux linkage
+$\lambda(t)$ is $N$ times the flux through a single turn, and the induced phase
+voltage is
+\begin{equation}
+e(t) = -\frac{d\lambda(t)}{dt}.
+\label{eq:e-dlambda-dt}
+\end{equation}
+
+In a permanent-magnet synchronous motor the rotor magnets produce a
+time-varying magnetic field in the stator reference frame whenever the rotor
+rotates. For an ideal rotor of spatial order $n$, the radial air-gap flux
+density at a fixed radius $R$ can be written as a traveling wave
+\begin{equation}
+B_r^r(R,\theta,t)
+= \widehat{B}_r \cos\bigl(n(\theta - \omega_m t)\bigr),
+\label{eq:Br-rotor-traveling-wave}
+\end{equation}
+where $\omega_m$ is the mechanical angular velocity and $n$ is the number of
+pole pairs. The corresponding electrical angular frequency of the field is
+\begin{equation}
+\omega_e = n\,\omega_m,
+\label{eq:omega-e-omega-m}
+\end{equation}
+which is the familiar synchronous-speed relation.
+
+Consider one stator phase winding whose spatial distribution can be described
+by a winding function $w(\theta)$ giving the effective turns per unit angle as
+a function of position around the air-gap. For a sinusoidally distributed phase
+of order $n$ we idealize
+\begin{equation}
+w(\theta) = \widehat{w} \cos\bigl(n(\theta - \theta_s)\bigr),
+\end{equation}
+where $\theta_s$ locates the phase axis and $\widehat{w}$ is a constant
+proportional to the number of series turns. The flux linkage of this phase with
+the rotor field is obtained by integrating the normal flux density weighted by
+$w(\theta)$ over the air-gap and along the stack length $L$:
+\begin{equation}
+\lambda(t)
+= \int_0^{2\pi} w(\theta)\,B_r^r(R,\theta,t)\,R L\, d\theta.
+\label{eq:lambda-wB}
+\end{equation}
+Substituting \eqref{eq:Br-rotor-traveling-wave} gives
+\begin{equation}
+\lambda(t)
+= \widehat{B}_r \widehat{w} R L
+  \int_0^{2\pi}
+  \cos\bigl(n(\theta - \theta_s)\bigr)
+  \cos\bigl(n(\theta - \omega_m t)\bigr)\, d\theta.
+\end{equation}
+Using the identity
+\[
+\cos\alpha\,\cos\beta
+= \tfrac{1}{2}\bigl[\cos(\alpha-\beta) + \cos(\alpha+\beta)\bigr]
+\]
+with $\alpha = n(\theta - \theta_s)$ and $\beta = n(\theta - \omega_m t)$, we
+obtain
+\begin{align}
+\lambda(t)
+&= \frac{\widehat{B}_r \widehat{w} R L}{2}
+   \int_0^{2\pi}
+   \bigl[
+   \cos\bigl(n(\omega_m t - \theta_s)\bigr)
+ + \cos\bigl(2n\theta - n(\theta_s + \omega_m t)\bigr)
+   \bigr] d\theta \nonumber\\
+&= \pi \widehat{B}_r \widehat{w} R L
+   \cos\bigl(n(\omega_m t - \theta_s)\bigr),
+\end{align}
+since the second cosine term integrates to zero over a full $2\pi$ period. Thus
+the phase flux linkage is sinusoidal in time with angular frequency
+$\omega_e = n\omega_m$:
+\begin{equation}
+\lambda(t)
+= \widehat{\lambda}
+  \cos\bigl(\omega_e t - \phi_\lambda\bigr),
+\qquad
+\widehat{\lambda} = \pi \widehat{B}_r \widehat{w} R L,
+\quad
+\phi_\lambda = n\theta_s.
+\end{equation}
+Applying \eqref{eq:e-dlambda-dt} yields the induced phase voltage (back-EMF)
+\begin{equation}
+e(t)
+= -\frac{d\lambda}{dt}
+= \omega_e \widehat{\lambda}
+  \sin\bigl(\omega_e t - \phi_\lambda\bigr).
+\end{equation}
+The peak back-EMF amplitude is therefore
+\begin{equation}
+\widehat{E}
+= \omega_e \widehat{\lambda}
+= n\,\omega_m\,\widehat{\lambda}.
+\label{eq:Ehat-omega}
+\end{equation}
+This shows explicitly that, for a given rotor magnetization and winding
+distribution, the back-EMF amplitude is proportional to the rotor speed:
+\begin{equation}
+\widehat{E} = k_e\,\omega_m,
+\qquad
+k_e = n\,\widehat{\lambda},
+\label{eq:ke-definition}
+\end{equation}
+where $k_e$ is the back-EMF constant of the machine in SI units.
+
+\subsection{Torque production, current, and the torque constant}
+
+In the idealized air-gap model the torque expression
+\eqref{eq:T-harmonic-amplitude-phase} shows that, for a single dominant spatial
+harmonic of order $n$,
+\[
+T
+\approx \frac{\pi R^2 L}{\mu_0}
+       B_{r,n} B_{\theta,n}
+       \cos\bigl(\phi_{r,n} - \phi_{\theta,n}\bigr).
+\]
+For an ideal rotor--stator pair with aligned fields we have
+$\phi_{r,n} = \phi_{\theta,n}$ and
+\[
+T
+= \frac{\pi R^2 L}{\mu_0} B_{r,n} B_{\theta,n}.
+\]
+The tangential harmonic amplitude $B_{\theta,n}$ is produced by the stator
+current. For a sinusoidal, balanced stator winding, the fundamental air-gap
+field amplitude is proportional to the peak stator phase current, so we may
+write
+\begin{equation}
+B_{\theta,n} = \alpha\,\widehat{I},
+\label{eq:Btheta-alpha-I}
+\end{equation}
+for some constant $\alpha$ determined by the winding and air-gap geometry.
+Substituting \eqref{eq:Btheta-alpha-I} and identifying $B_{r,n}$ with the rotor
+field amplitude gives
+\begin{equation}
+T
+= \frac{\pi R^2 L}{\mu_0} B_{r,n} \alpha\,\widehat{I}
+\equiv k_t\,\widehat{I},
+\label{eq:T-ktI}
+\end{equation}
+where
+\begin{equation}
+k_t = \frac{\pi R^2 L}{\mu_0} B_{r,n} \alpha
+\end{equation}
+is the torque constant of the machine. In the sinusoidal, balanced case with
+appropriate choice of units, the back-EMF constant $k_e$ and torque constant
+$k_t$ are equal ($k_e = k_t$), reflecting conservation of energy: the
+electromagnetic power $T \omega_m$ equals the air-gap power associated with the
+product of back-EMF and stator current.
+
+\subsection{Voltage limitation and maximum speed}
+
+We now combine the back-EMF relation \eqref{eq:ke-definition} with the torque
+relation \eqref{eq:T-ktI} to show why the motor does not accelerate forever
+under a finite applied voltage.
+
+Consider a single stator phase in steady-state sinusoidal operation with peak
+applied phase voltage $\widehat{V}$ and phase resistance $R_s$. Neglecting
+leakage inductance for the moment, the instantaneous phase voltage satisfies
+\begin{equation}
+v(t) = R_s i(t) + e(t),
+\end{equation}
+so at the level of fundamental amplitudes we have
+\begin{equation}
+\widehat{V} = R_s \widehat{I} + \widehat{E}.
+\label{eq:V-I-E}
+\end{equation}
+Using \eqref{eq:ke-definition} we can write
+\begin{equation}
+\widehat{I}
+= \frac{\widehat{V} - \widehat{E}}{R_s}
+= \frac{\widehat{V} - k_e \omega_m}{R_s}.
+\label{eq:I-vs-speed}
+\end{equation}
+Substituting into \eqref{eq:T-ktI} yields the torque as a function of rotor
+speed in this idealized model:
+\begin{equation}
+T(\omega_m)
+= k_t \widehat{I}
+= \frac{k_t}{R_s}\bigl(\widehat{V} - k_e \omega_m\bigr).
+\label{eq:torque-speed-linear}
+\end{equation}
+This expression shows that, for a given supply voltage $\widehat{V}$ and
+machine constants $k_e,k_t,R_s$, the torque decreases linearly with rotor
+speed. The electromagnetic torque becomes zero when
+\[
+\widehat{V} - k_e \omega_m = 0,
+\]
+i.e.\ when
+\begin{equation}
+\omega_m = \omega_\mathrm{no\mbox{-}load}
+= \frac{\widehat{V}}{k_e}.
+\label{eq:omega-noload}
+\end{equation}
+In the ideal case with no load torque and no losses, \eqref{eq:rotor-dynamics}
+implies that the rotor accelerates from rest until it approaches the speed
+$\omega_\mathrm{no\mbox{-}load}$, at which point the current and torque vanish
+and the acceleration ceases. The motor cannot accelerate beyond this speed
+under the given supply voltage because any further increase in speed would
+require a current that violates \eqref{eq:V-I-E}.
+
+In the more realistic case with a nonzero load torque $T_\mathrm{L}$ and
+losses $T_\mathrm{loss}$, the steady-state speed is determined by the balance
+condition
+\[
+T(\omega_m) = T_\mathrm{L} + T_\mathrm{loss},
+\]
+with $T(\omega_m)$ given by \eqref{eq:torque-speed-linear}. This yields a
+speed lower than $\omega_\mathrm{no\mbox{-}load}$, but the qualitative picture
+remains: back-EMF grows with speed, reduces the stator current and torque, and
+thereby sets a finite maximum speed for a given applied voltage in the ideal
+machine.
+The previous section characterized the air-gap field and showed how an ideal
+rotor--stator pair of spatial order $n$ produces electromagnetic torque, with a
+maximum torque
+\begin{equation}
+  T_\mathrm{max} = \frac{\pi R^2 L}{\mu_0} B^r_r B^s_\theta,
+\end{equation}
+when the rotor and stator field harmonics are perfeclty aligned. Now the dynamics
+of the rotor under this torque will be shown and why the motor does not accelerate
+indefinitely will be explained.  The key additional ingredient is the induced
+voltage (back-EMF) that arises as a result of Faraday's Law of electromagnetic
+induction.
+
+\subsection{Mechanical Dynamics of the Rotor}
+The rotor can be modeled as a rigid body with moment of inertia $J$ about the
+rotation axis.  Let $\omega_m$ denote the mechanical angular velocity of the 
+rotor about the $z$-axis, and let $T_\mathrm{e}$ be the electromagnetic torque 
+exterted on the rotor by the air-gap field.  The rotational equation of motion
+is
+\begin{equation}
+J\frac{d\omega_m}{dt} = T_\mathrm{e} - T_\mathrm{L} - T_\mathrm{loss},
+\label{eq:rotor-dynamics}
+\end{equation}
+
+\subsection{From standing waves to rotating fields: the need for multiple phases}
+
+The stator conductors are rigidly attached to the stator and therefore fixed in
+the stator reference frame. Their spatial distribution around the air-gap is
+purely a function of the angular coordinate $\theta$ and does not move in time.
+When currents flow in these conductors, the resulting current density and
+current sheet distributions inherit this property: at any given time the
+current pattern is some fixed function of $\theta$ multiplied by a time-varying
+amplitude. As a consequence, a single sinusoidally distributed stator circuit
+fed by a single sinusoidal current can produce at best a \emph{standing}
+sinusoidal field pattern in the air-gap, not a rotating one. To obtain a
+traveling wave of magnetic field, more than one stator circuit (phase) is
+required.
+
+\paragraph{Single-phase excitation: a standing wave.}
+
+Let $w(\theta)$ denote the (time-independent) spatial distribution of one
+stator circuit, expressed as an effective turns-per-unit-angle function. For a
+sinusoidally distributed circuit of spatial order $n$ we idealize
+\begin{equation}
+w(\theta) = \widehat{w}\,\cos\bigl(n(\theta - \theta_s)\bigr),
+\label{eq:w-single-phase}
+\end{equation}
+where $\theta_s$ fixes the location of the phase axis and $\widehat{w}$ is a
+constant. If this circuit carries a sinusoidal current
+\begin{equation}
+i(t) = \widehat{I}\cos(\omega t),
+\label{eq:i-single-phase}
+\end{equation}
+then, under the current-sheet approximation, the resulting surface current
+density on the stator inner surface may be written as
+\begin{equation}
+K_\mathrm{f}(\theta,t)
+= k\, i(t)\, w(\theta)
+= k\,\widehat{I}\widehat{w}
+  \cos(\omega t)\cos\bigl(n(\theta - \theta_s)\bigr),
+\label{eq:K-single-phase}
+\end{equation}
+where $k$ is a proportionality constant depending on slot geometry. Using the
+trigonometric identity
+\[
+\cos A\,\cos B
+= \tfrac{1}{2}\bigl[\cos(A+B) + \cos(A-B)\bigr],
+\]
+and setting $A = \omega t$, $B = n(\theta - \theta_s)$, we obtain
+\begin{align}
+K_\mathrm{f}(\theta,t)
+&= \frac{k\,\widehat{I}\widehat{w}}{2}
+   \Bigl[
+   \cos\bigl(\omega t + n(\theta - \theta_s)\bigr)
+ + \cos\bigl(\omega t - n(\theta - \theta_s)\bigr)
+   \Bigr].
+\label{eq:K-standing}
+\end{align}
+Each cosine term can be interpreted as a traveling wave. For example, the
+locus of constant phase for $\cos(\omega t - n(\theta - \theta_s))$ satisfies
+$\omega t - n(\theta - \theta_s) = \text{const}$, i.e.
+\[
+\theta - \theta_s = \frac{\omega}{n}\,t + \text{const},
+\]
+which corresponds to a wave pattern rotating in the positive $\theta$-direction
+with angular velocity $\omega/n$. The other term,
+$\cos(\omega t + n(\theta - \theta_s))$, represents a wave of equal amplitude
+rotating in the opposite direction at the same angular speed. Thus the current
+sheet produced by a single stationary sinusoidal winding and a single
+sinusoidal current is the superposition of two counter-propagating traveling
+waves of equal amplitude.
+
+Because the governing magnetostatic equations in the air-gap are linear, the
+tangential component of the stator-generated magnetic field $B_\theta^s$ at the
+air-gap boundary is proportional to $K_\mathrm{f}$,
+\[
+B_\theta^s(R_s,\theta,t)
+\propto K_\mathrm{f}(\theta,t),
+\]
+and therefore inherits the same structure: it is a standing wave formed by the
+superposition of two equal-amplitude waves rotating in opposite directions.
+Although $B_\theta^s$ is sinusoidal in time at any fixed $\theta$, and
+sinusoidal in space at any fixed $t$, the field pattern as a whole does not
+rotate steadily in one direction. Consequently, a single-phase stator cannot
+produce a continuously rotating air-gap field and can sustain at most a
+time-varying torque with large oscillations and zero average starting torque.
+
+\paragraph{Multiple phases and traveling waves.}
+
+To obtain a unidirectional traveling wave of magnetic field, we must design the
+stator so that the counter-rotating components of the field cancel, leaving
+only one traveling wave. This can be achieved by using several spatially
+displaced stator circuits (phases) carrying time-shifted currents. Each phase
+alone produces a standing wave, but their superposition can be arranged so
+that the backward-traveling waves cancel while the forward-traveling waves
+reinforce.
+
+Consider three identical sinusoidally distributed stator circuits of spatial
+order $n$, with spatial phase shifts of $120^\circ$ (i.e.\ $2\pi/3$ radians)
+between them. Let their spatial distributions be
+\begin{align}
+w_a(\theta) &= \widehat{w}\,\cos(n\theta), \\
+w_b(\theta) &= \widehat{w}\,\cos\bigl(n\theta - \tfrac{2\pi}{3}\bigr), \\
+w_c(\theta) &= \widehat{w}\,\cos\bigl(n\theta + \tfrac{2\pi}{3}\bigr).
+\end{align}
+Assume that these three circuits carry balanced three-phase currents
+\begin{align}
+i_a(t) &= \widehat{I}\cos(\omega t), \\
+i_b(t) &= \widehat{I}\cos\bigl(\omega t - \tfrac{2\pi}{3}\bigr), \\
+i_c(t) &= \widehat{I}\cos\bigl(\omega t + \tfrac{2\pi}{3}\bigr).
+\end{align}
+The resulting surface current density on the stator inner surface is
+\begin{equation}
+K_\mathrm{f}(\theta,t)
+= k\Bigl[
+    i_a(t) w_a(\theta)
+  + i_b(t) w_b(\theta)
+  + i_c(t) w_c(\theta)
+  \Bigr].
+\label{eq:K-3phase-sum}
+\end{equation}
+Substituting the explicit expressions gives
+\begin{align}
+K_\mathrm{f}(\theta,t)
+&= k\,\widehat{I}\widehat{w}
+   \Bigl[
+   \cos(\omega t)\cos(n\theta)
+ + \cos\bigl(\omega t - \tfrac{2\pi}{3}\bigr)
+   \cos\bigl(n\theta - \tfrac{2\pi}{3}\bigr) \nonumber\\
+&\hspace{7em}
+ + \cos\bigl(\omega t + \tfrac{2\pi}{3}\bigr)
+   \cos\bigl(n\theta + \tfrac{2\pi}{3}\bigr)
+   \Bigr].
+\end{align}
+Applying the product-to-sum identity to each term, and simplifying, one finds
+(after straightforward but slightly lengthy algebra) that all backward-rotating
+components cancel and the sum reduces to a single forward-traveling wave:
+\begin{equation}
+K_\mathrm{f}(\theta,t)
+= \frac{3}{2}\,k\,\widehat{I}\widehat{w}
+  \cos\bigl(n\theta - \omega t\bigr).
+\label{eq:K-traveling-3phase}
+\end{equation}
+A direct derivation uses
+\[
+\cos\alpha\,\cos\beta
+= \tfrac{1}{2}\bigl[\cos(\alpha-\beta) + \cos(\alpha+\beta)\bigr]
+\]
+and the identity
+\[
+\cos x + \cos\Bigl(x + \tfrac{2\pi}{3}\Bigr)
+       + \cos\Bigl(x + \tfrac{4\pi}{3}\Bigr) = 0,
+\]
+which ensures that the backward-traveling terms vanish in the three-phase sum.
+
+Equation \eqref{eq:K-traveling-3phase} has the form of a single traveling wave
+of constant amplitude: the current sheet is proportional to
+\[
+\cos\bigl(n\theta - \omega t\bigr),
+\]
+which represents a wave of spatial order $n$ rotating in the positive
+$\theta$-direction with angular velocity $\omega/n$ and constant amplitude
+$\tfrac{3}{2}k\widehat{I}\widehat{w}$. Because the air-gap field
+$\mathbf{B}^s$ is linearly related to $K_\mathrm{f}$ through the magnetostatic
+field equations, the fundamental component of the stator-generated magnetic
+field is likewise a rotating sinusoidal field of constant amplitude. This is
+the \emph{rotating magnetic field} that interacts with the rotor field to
+produce a steady electromagnetic torque.
+
+In summary, the stationary nature of the stator conductors means that a single
+sinusoidally distributed stator circuit excited by a sinusoidal current
+produces a standing wave in the air-gap, composed of two counter-propagating
+traveling waves of equal amplitude. By using multiple spatially displaced
+circuits with time-shifted currents---in particular, a balanced three-phase
+system with $120^\circ$ separation in both space and time---the backward
+components cancel and a single traveling wave of constant amplitude is
+obtained. This rotating stator field is essential for continuous torque
+production in a synchronous permanent-magnet motor.
+
+\subsection{From standing waves to rotating fields: the need for multiple phases}
+
+The stator conductors are rigidly attached to the stator and therefore fixed in
+the stator reference frame. Their spatial distribution around the air-gap is
+purely a function of the angular coordinate $\theta$ and does not move in time.
+When currents flow in these conductors, the resulting current density and
+current sheet distributions inherit this property: at any given time the
+current pattern is some fixed function of $\theta$ multiplied by a time-varying
+amplitude. As a consequence, a single sinusoidally distributed stator circuit
+fed by a single sinusoidal current can produce at best a \emph{standing}
+sinusoidal field pattern in the air-gap, not a rotating one. To obtain a
+traveling wave of magnetic field, more than one stator circuit (phase) is
+required.
+
+\paragraph{Single-phase excitation: a standing wave.}
+
+Let $w(\theta)$ denote the (time-independent) spatial distribution of one
+stator circuit, expressed as an effective turns-per-unit-angle function. For a
+sinusoidally distributed circuit of spatial order $n$ we idealize
+\begin{equation}
+w(\theta) = \widehat{w}\,\cos\bigl(n(\theta - \theta_s)\bigr),
+\label{eq:w-single-phase}
+\end{equation}
+where $\theta_s$ fixes the location of the phase axis and $\widehat{w}$ is a
+constant. If this circuit carries a sinusoidal current
+\begin{equation}
+i(t) = \widehat{I}\cos(\omega t),
+\label{eq:i-single-phase}
+\end{equation}
+then, under the current-sheet approximation, the resulting surface current
+density on the stator inner surface may be written as
+\begin{equation}
+K_\mathrm{f}(\theta,t)
+= k\, i(t)\, w(\theta)
+= k\,\widehat{I}\widehat{w}
+  \cos(\omega t)\cos\bigl(n(\theta - \theta_s)\bigr),
+\label{eq:K-single-phase}
+\end{equation}
+where $k$ is a proportionality constant depending on slot geometry. Using the
+trigonometric identity
+\[
+\cos A\,\cos B
+= \tfrac{1}{2}\bigl[\cos(A+B) + \cos(A-B)\bigr],
+\]
+and setting $A = \omega t$, $B = n(\theta - \theta_s)$, we obtain
+\begin{align}
+K_\mathrm{f}(\theta,t)
+&= \frac{k\,\widehat{I}\widehat{w}}{2}
+   \Bigl[
+   \cos\bigl(\omega t + n(\theta - \theta_s)\bigr)
+ + \cos\bigl(\omega t - n(\theta - \theta_s)\bigr)
+   \Bigr].
+\label{eq:K-standing}
+\end{align}
+Each cosine term can be interpreted as a traveling wave. For example, the
+locus of constant phase for $\cos(\omega t - n(\theta - \theta_s))$ satisfies
+$\omega t - n(\theta - \theta_s) = \text{const}$, i.e.
+\[
+\theta - \theta_s = \frac{\omega}{n}\,t + \text{const},
+\]
+which corresponds to a wave pattern rotating in the positive $\theta$-direction
+with angular velocity $\omega/n$. The other term,
+$\cos(\omega t + n(\theta - \theta_s))$, represents a wave of equal amplitude
+rotating in the opposite direction at the same angular speed. Thus the current
+sheet produced by a single stationary sinusoidal winding and a single
+sinusoidal current is the superposition of two counter-propagating traveling
+waves of equal amplitude.
+
+Because the governing magnetostatic equations in the air-gap are linear, the
+tangential component of the stator-generated magnetic field $B_\theta^s$ at the
+air-gap boundary is proportional to $K_\mathrm{f}$,
+\[
+B_\theta^s(R_s,\theta,t)
+\propto K_\mathrm{f}(\theta,t),
+\]
+and therefore inherits the same structure: it is a standing wave formed by the
+superposition of two equal-amplitude waves rotating in opposite directions.
+Although $B_\theta^s$ is sinusoidal in time at any fixed $\theta$, and
+sinusoidal in space at any fixed $t$, the field pattern as a whole does not
+rotate steadily in one direction. Consequently, a single-phase stator cannot
+produce a continuously rotating air-gap field and can sustain at most a
+time-varying torque with large oscillations and zero average starting torque.
+
+\paragraph{Multiple phases and traveling waves.}
+
+To obtain a unidirectional traveling wave of magnetic field, we must design the
+stator so that the counter-rotating components of the field cancel, leaving
+only one traveling wave. This can be achieved by using several spatially
+displaced stator circuits (phases) carrying time-shifted currents. Each phase
+alone produces a standing wave, but their superposition can be arranged so
+that the backward-traveling waves cancel while the forward-traveling waves
+reinforce.
+
+Consider three identical sinusoidally distributed stator circuits of spatial
+order $n$, with spatial phase shifts of $120^\circ$ (i.e.\ $2\pi/3$ radians)
+between them. Let their spatial distributions be
+\begin{align}
+w_a(\theta) &= \widehat{w}\,\cos(n\theta), \\
+w_b(\theta) &= \widehat{w}\,\cos\bigl(n\theta - \tfrac{2\pi}{3}\bigr), \\
+w_c(\theta) &= \widehat{w}\,\cos\bigl(n\theta + \tfrac{2\pi}{3}\bigr).
+\end{align}
+Assume that these three circuits carry balanced three-phase currents
+\begin{align}
+i_a(t) &= \widehat{I}\cos(\omega t), \\
+i_b(t) &= \widehat{I}\cos\bigl(\omega t - \tfrac{2\pi}{3}\bigr), \\
+i_c(t) &= \widehat{I}\cos\bigl(\omega t + \tfrac{2\pi}{3}\bigr).
+\end{align}
+The resulting surface current density on the stator inner surface is
+\begin{equation}
+K_\mathrm{f}(\theta,t)
+= k\Bigl[
+    i_a(t) w_a(\theta)
+  + i_b(t) w_b(\theta)
+  + i_c(t) w_c(\theta)
+  \Bigr].
+\label{eq:K-3phase-sum}
+\end{equation}
+Substituting the explicit expressions gives
+\begin{align}
+K_\mathrm{f}(\theta,t)
+&= k\,\widehat{I}\widehat{w}
+   \Bigl[
+   \cos(\omega t)\cos(n\theta)
+ + \cos\bigl(\omega t - \tfrac{2\pi}{3}\bigr)
+   \cos\bigl(n\theta - \tfrac{2\pi}{3}\bigr) \nonumber\\
+&\hspace{7em}
+ + \cos\bigl(\omega t + \tfrac{2\pi}{3}\bigr)
+   \cos\bigl(n\theta + \tfrac{2\pi}{3}\bigr)
+   \Bigr].
+\end{align}
+Applying the product-to-sum identity to each term, and simplifying, one finds
+(after straightforward but slightly lengthy algebra) that all backward-rotating
+components cancel and the sum reduces to a single forward-traveling wave:
+\begin{equation}
+K_\mathrm{f}(\theta,t)
+= \frac{3}{2}\,k\,\widehat{I}\widehat{w}
+  \cos\bigl(n\theta - \omega t\bigr).
+\label{eq:K-traveling-3phase}
+\end{equation}
+A direct derivation uses
+\[
+\cos\alpha\,\cos\beta
+= \tfrac{1}{2}\bigl[\cos(\alpha-\beta) + \cos(\alpha+\beta)\bigr]
+\]
+and the identity
+\[
+\cos x + \cos\Bigl(x + \tfrac{2\pi}{3}\Bigr)
+       + \cos\Bigl(x + \tfrac{4\pi}{3}\Bigr) = 0,
+\]
+which ensures that the backward-traveling terms vanish in the three-phase sum.
+
+Equation \eqref{eq:K-traveling-3phase} has the form of a single traveling wave
+of constant amplitude: the current sheet is proportional to
+\[
+\cos\bigl(n\theta - \omega t\bigr),
+\]
+which represents a wave of spatial order $n$ rotating in the positive
+$\theta$-direction with angular velocity $\omega/n$ and constant amplitude
+$\tfrac{3}{2}k\widehat{I}\widehat{w}$. Because the air-gap field
+$\mathbf{B}^s$ is linearly related to $K_\mathrm{f}$ through the magnetostatic
+field equations, the fundamental component of the stator-generated magnetic
+field is likewise a rotating sinusoidal field of constant amplitude. This is
+the \emph{rotating magnetic field} that interacts with the rotor field to
+produce a steady electromagnetic torque.
+
+In summary, the stationary nature of the stator conductors means that a single
+sinusoidally distributed stator circuit excited by a sinusoidal current
+produces a standing wave in the air-gap, composed of two counter-propagating
+traveling waves of equal amplitude. By using multiple spatially displaced
+circuits with time-shifted currents---in particular, a balanced three-phase
+system with $120^\circ$ separation in both space and time---the backward
+components cancel and a single traveling wave of constant amplitude is
+obtained. This rotating stator field is essential for continuous torque
+production in a synchronous permanent-magnet motor.
 
 \begin{figure}[h!]
     \centering
